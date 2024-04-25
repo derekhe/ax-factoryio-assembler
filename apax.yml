@@ -9,9 +9,10 @@ variables:
     - "--debug" # Generate debug information for target "1500"
 devDependencies:
   "@ax/sdk": 2311.0.3
-  "@ax/st-lang-contrib-library-toolbox": ^0.17.2
 scripts:
   dl:
     - apax build && apax sld load -i ./bin/plcsim/st-app.app -t 192.168.0.1 --accept-security-disclaimer -r
 dependencies:
   "@ax/plc-info": ^2.3.0
+  "@ax/system-timer": ^6.0.94
+  "@ax/simatic-1500-tasks": ^5.0.34
