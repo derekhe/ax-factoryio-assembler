@@ -58,4 +58,9 @@ CONFIGURATION MyConfiguration
         baseClamp: Clamp;
         lidClamp: Clamp;
     END_VAR
+
+    // PickPlace
+    VAR_GLOBAL
+        twoAxisPickPlace: TwoAxisPickPlace;
+    END_VAR
 END_CONFIGURATION

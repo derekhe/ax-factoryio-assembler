@@ -47,6 +47,9 @@ PROGRAM MyProgram
         baseClamp: Clamp;
         lidClamp: Clamp;
     END_VAR
+    VAR_EXTERNAL
+        twoAxisPickPlace: TwoAxisPickPlace;
+    END_VAR
     VAR
         baseDelayTimer: OnDelay;
         lidDelayTimer: OnDelay;
@@ -59,38 +62,38 @@ PROGRAM MyProgram
     baseAtPlaceSensor.Input(iBaseAtPlace);
     partLeavingSensor.Input(iPartLeaving);
     lidAtPlaceSensor.Input(iLidAtPlace);
+    twoAxisPickPlace.Input(iMovingX, iMovingZ, iItemDetected);
 
     IF startButton.IsPressed() THEN
-        basesConveyor.Start();
-        lidsConveyor.Start();
+        twoAxisPickPlace.Start();
     END_IF;
 
-    IF stopButton.IsPressed() THEN
-        basesConveyor.Stop();
-        lidsConveyor.Stop();
+    IF resetButton.IsPressed() THEN
+        twoAxisPickPlace.Reset();
     END_IF;
 
-    IF lidAtPlaceSensor.HasObjectPassed() THEN        
-        lidDelayTimer(TRUE, LT#1s);
-        IF lidDelayTimer.output THEN
-            lidDelayTimer(FALSE, LT#0.5s);
-            lidsConveyor.Stop();               
-            lidAtPlaceSensor.Reset();            
-            lidClamp.DoClamp();
-        END_IF;
-    END_IF;
+    // IF lidAtPlaceSensor.HasObjectPassed() THEN        
+    //     lidDelayTimer(TRUE, LT#1s);
+    //     IF lidDelayTimer.output THEN
+    //         lidDelayTimer(FALSE, LT#0.5s);
+    //         lidsConveyor.Stop();               
+    //         lidAtPlaceSensor.Reset();            
+    //         lidClamp.DoClamp();
+    //     END_IF;
+    // END_IF;
 
-    IF baseAtPlaceSensor.HasObjectPassed() THEN        
-        baseDelayTimer(TRUE, LT#1s);
-        IF baseDelayTimer.output THEN
-            baseDelayTimer(FALSE, LT#0.5s);
-            basesConveyor.Stop();        
-            baseAtPlaceSensor.Reset();
-            baseClamp.DoClamp();
-        END_IF;        
-    END_IF;
-    
+    // IF baseAtPlaceSensor.HasObjectPassed() THEN        
+    //     baseDelayTimer(TRUE, LT#1s);
+    //     IF baseDelayTimer.output THEN
+    //         baseDelayTimer(FALSE, LT#0.5s);
+    //         basesConveyor.Stop();        
+    //         baseAtPlaceSensor.Reset();
+    //         baseClamp.DoClamp();
+    //     END_IF;        
+    // END_IF;
+
     qCounter:=qCounter+1;
+    twoAxisPickPlace.Cycle();
 
     startButton.Output(qStartLight);
     resetButton.Output(qResetLight);
@@ -99,4 +102,5 @@ PROGRAM MyProgram
     lidsConveyor.Output(qLidsConveyor);
     baseClamp.Output(qClampBase);
     lidClamp.Output(qClampLid);
+    twoAxisPickPlace.Output(qMoveX, qMoveZ, qGrab);
 END_PROGRAM
