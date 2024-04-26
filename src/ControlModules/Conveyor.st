@@ -4,8 +4,6 @@ CLASS Conveyor
     VAR
         _isOn : BOOL;
         _isStopped : BOOL;
-        _stopTimer: OnDelay;
-        _elapsedTime: LTIME;
     END_VAR
 
     METHOD PUBLIC Start

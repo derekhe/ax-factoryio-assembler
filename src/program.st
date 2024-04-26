@@ -9,7 +9,7 @@ PROGRAM MyProgram
         iLidClamped : BOOL;
         iPosAtLimitLids : BOOL;
         iBaseAtPlace : BOOL;
-        iBastClamped : BOOL;
+        iBaseClamped : BOOL;
         iPosAtLimitBase : BOOL;
         iPartLeaving : BOOL;
         iStart : BOOL;
@@ -50,6 +50,9 @@ PROGRAM MyProgram
     VAR_EXTERNAL
         twoAxisPickPlace: TwoAxisPickPlace;
     END_VAR
+    VAR_EXTERNAL
+        assembler : Assembler;
+    END_VAR    
     VAR
         baseDelayTimer: OnDelay;
         lidDelayTimer: OnDelay;
@@ -63,44 +66,32 @@ PROGRAM MyProgram
     partLeavingSensor.Input(iPartLeaving);
     lidAtPlaceSensor.Input(iLidAtPlace);
     twoAxisPickPlace.Input(iMovingX, iMovingZ, iItemDetected);
+    lidClamp.Input(iLidClamped);
+    baseClamp.Input(iBaseClamped);
 
     IF startButton.IsPressed() THEN
-        twoAxisPickPlace.Start();
+        assembler.Start();
     END_IF;
 
     IF resetButton.IsPressed() THEN
-        twoAxisPickPlace.Reset();
+        assembler.Reset();
     END_IF;
 
-    // IF lidAtPlaceSensor.HasObjectPassed() THEN        
-    //     lidDelayTimer(TRUE, LT#1s);
-    //     IF lidDelayTimer.output THEN
-    //         lidDelayTimer(FALSE, LT#0.5s);
-    //         lidsConveyor.Stop();               
-    //         lidAtPlaceSensor.Reset();            
-    //         lidClamp.DoClamp();
-    //     END_IF;
-    // END_IF;
-
-    // IF baseAtPlaceSensor.HasObjectPassed() THEN        
-    //     baseDelayTimer(TRUE, LT#1s);
-    //     IF baseDelayTimer.output THEN
-    //         baseDelayTimer(FALSE, LT#0.5s);
-    //         basesConveyor.Stop();        
-    //         baseAtPlaceSensor.Reset();
-    //         baseClamp.DoClamp();
-    //     END_IF;        
-    // END_IF;
+    IF stopButton.IsPressed() THEN
+        assembler.Stop();
+    END_IF;
 
     qCounter:=qCounter+1;
+    
     twoAxisPickPlace.Cycle();
+    assembler.Cyclic();
 
     startButton.Output(qStartLight);
     resetButton.Output(qResetLight);
     stopButton.Output(qStopLight);
     basesConveyor.Output(qBasesConveyor);
     lidsConveyor.Output(qLidsConveyor);
-    baseClamp.Output(qClampBase);
-    lidClamp.Output(qClampLid);
+    baseClamp.Output(qClampBase, qPosRaiseBases);
+    lidClamp.Output(qClampLid, qPosRaiseLids);
     twoAxisPickPlace.Output(qMoveX, qMoveZ, qGrab);
 END_PROGRAM

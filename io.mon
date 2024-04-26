@@ -5,7 +5,7 @@ ILidAtPlace
 ILidClamped
 IPosAtLimitLids
 IBaseAtPlace
-IBastClamped
+IBaseClamped
 IPosAtLimitBase
 IPartLeaving
 IStart

@@ -97,8 +97,13 @@ CLASS TwoAxisPickPlace
                     _status := PickPlaceStatus#PLACE_MOVING_Z_UP;
                 END_IF;
             PickPlaceStatus#PLACE_MOVING_Z_UP:
-                _moveXCmd := FALSE;
-                _status := PickPlaceStatus#DONE;
+                _moveZCmd := FALSE;
+                
+                _delayTimer(NOT(_movingZ), LT#200ms);
+                IF _delayTimer.output THEN
+                    _delayTimer(FALSE);
+                    _status := PickPlaceStatus#DONE;
+                END_IF;
             PickPlaceStatus#DONE:
                 _moveZCmd := FALSE;
                 _moveXCmd := FALSE;
@@ -110,7 +115,7 @@ CLASS TwoAxisPickPlace
         _moveZCmd := FALSE;
         _moveXCmd := FALSE;
         _grabCmd := FALSE;
-        _status := PickPlaceStatus#READY;
+        _status := PickPlaceStatus#IDLE;
     END_METHOD
 
     METHOD PUBLIC IsDone : BOOL

@@ -9,7 +9,7 @@ PROGRAM InitPLC
         iLidClamped : BOOL;
         iPosAtLimitLids : BOOL;
         iBaseAtPlace : BOOL;
-        iBastClamped : BOOL;
+        IBaseClamped : BOOL;
         iPosAtLimitBase : BOOL;
         iPartLeaving : BOOL;
         iStart : BOOL;
@@ -46,9 +46,22 @@ PROGRAM InitPLC
         lidAtPlaceSensor: ObjectSensor;
         baseClamp: Clamp;
         lidClamp: Clamp;
+        twoAxisPickPlace: TwoAxisPickPlace;
+        assembler: Assembler;
     END_VAR
 
     baseAtPlaceSensor.Reset();
     partLeavingSensor.Reset();
     lidAtPlaceSensor.Reset();    
+    twoAxisPickPlace.Reset();
+
+    assembler.lidConveyor := REF(lidsConveyor);
+    assembler.baseConveyor := REF(basesConveyor);
+    assembler.baseAtPlaceSensor := REF(baseAtPlaceSensor);
+    assembler.partLeavingSensor := REF(partLeavingSensor);
+    assembler.lidAtPlaceSensor := REF(lidAtPlaceSensor);
+    assembler.baseClamp := REF(baseClamp);
+    assembler.lidClamp := REF(lidClamp);
+    assembler.twoAxisPickPlace := REF(twoAxisPickPlace);
+
 END_PROGRAM

@@ -16,7 +16,7 @@ CONFIGURATION MyConfiguration
         iLidClamped AT %I0.4 : BOOL;
         iPosAtLimitLids AT %I0.5 : BOOL;
         iBaseAtPlace AT %I0.6 : BOOL;
-        iBastClamped AT %I0.7 : BOOL;
+        iBaseClamped AT %I0.7 : BOOL;
         iPosAtLimitBase AT %I1.0 : BOOL;
         iPartLeaving AT %I1.1 : BOOL;
         iStart AT %I1.2 : BOOL;
@@ -62,5 +62,10 @@ CONFIGURATION MyConfiguration
     // PickPlace
     VAR_GLOBAL
         twoAxisPickPlace: TwoAxisPickPlace;
+    END_VAR
+
+    // Assembler
+    VAR_GLOBAL
+        assembler: Assembler;
     END_VAR
 END_CONFIGURATION
