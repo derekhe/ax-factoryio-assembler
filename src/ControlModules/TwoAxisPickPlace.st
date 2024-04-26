@@ -11,7 +11,8 @@ IDLE,
         PLACE_MOVING_Z_DOWN,
         RELEASE,
         PLACE_MOVING_Z_UP,
-        DONE);
+        DONE,
+        EMERGENCY_STOP);
 END_TYPE
 
 CLASS TwoAxisPickPlace
@@ -108,6 +109,8 @@ CLASS TwoAxisPickPlace
                 _moveZCmd := FALSE;
                 _moveXCmd := FALSE;
                 _grabCmd := FALSE;
+            PickPlaceStatus#EMERGENCY_STOP:
+                ;
         END_CASE;
     END_METHOD
 
@@ -120,5 +123,9 @@ CLASS TwoAxisPickPlace
 
     METHOD PUBLIC IsDone : BOOL
         IsDone := (_status = PickPlaceStatus#DONE);
+    END_METHOD
+
+    METHOD PUBLIC EmergencyStop
+        _status :=PickPlaceStatus#EMERGENCY_STOP;        
     END_METHOD
 END_CLASS

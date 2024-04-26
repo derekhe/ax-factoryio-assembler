@@ -8,11 +8,11 @@ CLASS Button
         IsPressed := _isPressed;
     END_METHOD
 
-    METHOD PUBLIC Cycle
+    METHOD PUBLIC Input
         VAR_INPUT
             ButtonInputSignal : BOOL;
         END_VAR
-        _isPressed := ButtonInputSignal;
+        _isPressed := NOT(ButtonInputSignal);
     END_METHOD
 END_CLASS
 

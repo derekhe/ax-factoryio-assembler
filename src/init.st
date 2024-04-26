@@ -63,5 +63,4 @@ PROGRAM InitPLC
     assembler.baseClamp := REF(baseClamp);
     assembler.lidClamp := REF(lidClamp);
     assembler.twoAxisPickPlace := REF(twoAxisPickPlace);
-
 END_PROGRAM

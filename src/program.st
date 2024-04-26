@@ -58,9 +58,11 @@ PROGRAM MyProgram
         lidDelayTimer: OnDelay;
     END_VAR
     
+    // Inputs
     startButton.Input(iStart);
     resetButton.Input(iReset);
     stopButton.Input(NOT(iStop));
+    emergencyStop.Input(iEmergencyStop);
     switch.Input(iAuto);
     baseAtPlaceSensor.Input(iBaseAtPlace);
     partLeavingSensor.Input(iPartLeaving);
@@ -69,23 +71,30 @@ PROGRAM MyProgram
     lidClamp.Input(iLidClamped);
     baseClamp.Input(iBaseClamped);
 
-    IF startButton.IsPressed() THEN
-        assembler.Start();
-    END_IF;
+    // Executions
+    IF emergencyStop.IsPressed() THEN
+        assembler.EmergencyStop();
+    ELSE
+        IF startButton.IsPressed() THEN
+            assembler.Start();
+        END_IF;
 
-    IF resetButton.IsPressed() THEN
-        assembler.Reset();
-    END_IF;
+        IF resetButton.IsPressed() THEN
+            assembler.Reset();
+        END_IF;
 
-    IF stopButton.IsPressed() THEN
-        assembler.Stop();
+        IF stopButton.IsPressed() THEN
+            assembler.Stop();
+        END_IF;
     END_IF;
 
     qCounter:=assembler.GetCount();
     
+    // Cycles
     twoAxisPickPlace.Cycle();
     assembler.Cyclic();
 
+    // Outputs
     startButton.Output(qStartLight);
     resetButton.Output(qResetLight);
     stopButton.Output(qStopLight);
