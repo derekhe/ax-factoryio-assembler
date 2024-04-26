@@ -81,7 +81,7 @@ PROGRAM MyProgram
         assembler.Stop();
     END_IF;
 
-    qCounter:=qCounter+1;
+    qCounter:=assembler.GetCount();
     
     twoAxisPickPlace.Cycle();
     assembler.Cyclic();

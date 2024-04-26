@@ -26,7 +26,13 @@ CLASS Assembler
 
         _baseObjectInPosition:BOOL;
         _lidObjectInPosition:BOOL;
+
+        _counter : DINT;
     END_VAR
+
+    METHOD PUBLIC GetCount : DINT
+        GetCount := _counter;
+    END_METHOD
 
     METHOD PUBLIC Start
         _status:= AssemblerStatus#STARTED;
@@ -110,6 +116,7 @@ CLASS Assembler
                         baseClamp^.Down();
                         partLeavingSensor^.Reset();
                         _status := AssemblerStatus#STARTED;
+                        _counter := _counter + 1;
                     END_IF;
                 END_IF;
             AssemblerStatus#STOPPED:
@@ -119,6 +126,6 @@ CLASS Assembler
     END_METHOD
 
     METHOD PUBLIC Reset
-        ;
+        _counter := 0;
     END_METHOD
 END_CLASS
