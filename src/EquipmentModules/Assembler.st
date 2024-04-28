@@ -1,7 +1,11 @@
 USING System.Timer;
 
 TYPE
-    AssemblerStatus: (IDLE, STARTED, WAITING_FOR_PARTS, CLAMPING_PARTS, PICK_AND_PLACE, MOVE_TO_FINISH, PARTS_LEAVING, STOPPED, EMERGENCY_STOPPING);
+    AssemblerStatus: (
+        IDLE,
+        STARTED, WAITING_FOR_PARTS, CLAMPING_PARTS, PICK_AND_PLACE, MOVE_TO_FINISH, PARTS_LEAVING, 
+        STOPPED, 
+        EMERGENCY_STOPPING);
 END_TYPE
 
 CLASS Assembler
@@ -39,8 +43,18 @@ CLASS Assembler
     END_METHOD
 
     METHOD PUBLIC Stop
+        _status:= AssemblerStatus#STOPPED;
         lidConveyor^.Stop();
         baseConveyor^.Stop();
+    END_METHOD
+    
+    METHOD PUBLIC Reset
+        _counter := 0;
+        baseConveyor^.Stop();
+        baseClamp^.Release();
+
+        lidConveyor^.Stop();
+        lidClamp^.Release();        
     END_METHOD
 
     METHOD PUBLIC EmergencyStop
@@ -126,19 +140,11 @@ CLASS Assembler
             AssemblerStatus#STOPPED:
                 baseConveyor^.Stop();
                 lidConveyor^.Stop();
+                twoAxisPickPlace^.Stop();
             AssemblerStatus#EMERGENCY_STOPPING:
                 baseConveyor^.Stop();
                 lidConveyor^.Stop();
                 twoAxisPickPlace^.EmergencyStop();
         END_CASE;
-    END_METHOD
-
-    METHOD PUBLIC Reset
-        _counter := 0;
-        baseConveyor^.Stop();
-        baseClamp^.Release();
-
-        lidConveyor^.Stop();
-        lidClamp^.Release();        
     END_METHOD
 END_CLASS

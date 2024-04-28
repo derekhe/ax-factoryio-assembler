@@ -62,7 +62,7 @@ PROGRAM MyProgram
     startButton.Input(iStart);
     resetButton.Input(iReset);
     stopButton.Input(NOT(iStop));
-    emergencyStop.Input(iEmergencyStop);
+    emergencyStop.Input(NOT(iEmergencyStop));
     switch.Input(iAuto);
     baseAtPlaceSensor.Input(iBaseAtPlace);
     partLeavingSensor.Input(iPartLeaving);

@@ -2,16 +2,14 @@ USING System.Timer;
 
 TYPE
     PickPlaceStatus : (        
-IDLE,
-        READY,
-        PICK_MOVING_Z_DOWN,
-        GRABING,
-        PICK_MOVING_Z_UP,
-        MOVING_X_RIGHT,
-        PLACE_MOVING_Z_DOWN,
-        RELEASE,
-        PLACE_MOVING_Z_UP,
-        DONE,
+        IDLE,
+        STARTING,
+        // Execute
+        PICK_MOVING_Z_DOWN, GRABING, PICK_MOVING_Z_UP, MOVING_X_RIGHT, PLACE_MOVING_Z_DOWN, RELEASE, PLACE_MOVING_Z_UP, COMPLETE,
+        // Stops
+        STOPPING,
+        STOPPED,
+        // Abort
         EMERGENCY_STOP);
 END_TYPE
 
@@ -50,14 +48,33 @@ CLASS TwoAxisPickPlace
     END_METHOD
 
     METHOD PUBLIC Start
-        _status := PickPlaceStatus#READY;
+        _status := PickPlaceStatus#STARTING;
+    END_METHOD
+    
+    METHOD PUBLIC Reset
+        _moveZCmd := FALSE;
+        _moveXCmd := FALSE;
+        _grabCmd := FALSE;
+        _status := PickPlaceStatus#IDLE;
+    END_METHOD
+
+    METHOD PUBLIC Stop
+        _status := PickPlaceStatus#STOPPED;
+    END_METHOD
+
+    METHOD PUBLIC IsDone : BOOL
+        IsDone := (_status = PickPlaceStatus#COMPLETE);
+    END_METHOD
+
+    METHOD PUBLIC EmergencyStop
+        _status :=PickPlaceStatus#EMERGENCY_STOP;        
     END_METHOD
 
     METHOD PUBLIC Cycle
         CASE _status OF
             PickPlaceStatus#IDLE:
                 ;
-            PickPlaceStatus#READY:
+            PickPlaceStatus#STARTING:
                 _moveZCmd := TRUE;
                 _status := PickPlaceStatus#PICK_MOVING_Z_DOWN;
                 _delayTimer(FALSE);
@@ -103,29 +120,19 @@ CLASS TwoAxisPickPlace
                 _delayTimer(NOT(_movingZ), LT#200ms);
                 IF _delayTimer.output THEN
                     _delayTimer(FALSE);
-                    _status := PickPlaceStatus#DONE;
+                    _status := PickPlaceStatus#COMPLETE;
                 END_IF;
-            PickPlaceStatus#DONE:
+            PickPlaceStatus#COMPLETE:
                 _moveZCmd := FALSE;
                 _moveXCmd := FALSE;
                 _grabCmd := FALSE;
+                _status := PickPlaceStatus#IDLE;
+            PickPlaceStatus#STOPPING:
+                // Do nothing
+                ;
             PickPlaceStatus#EMERGENCY_STOP:
+                // Do nothing
                 ;
         END_CASE;
-    END_METHOD
-
-    METHOD PUBLIC Reset
-        _moveZCmd := FALSE;
-        _moveXCmd := FALSE;
-        _grabCmd := FALSE;
-        _status := PickPlaceStatus#IDLE;
-    END_METHOD
-
-    METHOD PUBLIC IsDone : BOOL
-        IsDone := (_status = PickPlaceStatus#DONE);
-    END_METHOD
-
-    METHOD PUBLIC EmergencyStop
-        _status :=PickPlaceStatus#EMERGENCY_STOP;        
     END_METHOD
 END_CLASS
