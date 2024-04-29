@@ -8,7 +8,7 @@ TYPE
         EMERGENCY_STOPPING);
 END_TYPE
 
-CLASS Assembler
+CLASS Assembler IMPLEMENTS ICyclic
     VAR PUBLIC
         lidConveyor : REF_TO Conveyor;
         baseConveyor : REF_TO Conveyor;
@@ -61,8 +61,7 @@ CLASS Assembler
         _status := AssemblerStatus#EMERGENCY_STOPPING;
     END_METHOD
 
-    METHOD PUBLIC Cyclic
-
+    METHOD PUBLIC Cycle
         CASE _status OF
             AssemblerStatus#IDLE:
             //Do nothing

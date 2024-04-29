@@ -1,8 +1,9 @@
-CLASS ButtonWithLight EXTENDS Button
-    METHOD PUBLIC Output
-        VAR_OUTPUT
-            ButtonLightOutputSignal : BOOL;
-        END_VAR
-        ButtonLightOutputSignal := _isPressed;
+CLASS ButtonWithLight EXTENDS Button IMPLEMENTS ICyclic
+    VAR PUBLIC
+        LightSignal: IBoolOutput;
+    END_VAR
+
+    METHOD PUBLIC Cycle
+        LightSignal.SetValue(Signal.GetValue());
     END_METHOD
 END_CLASS

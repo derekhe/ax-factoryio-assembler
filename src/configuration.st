@@ -38,34 +38,73 @@ CONFIGURATION MyConfiguration
         qStopLight AT %Q1.3 : BOOL;
         qCounter AT %QD30 : DINT;
     END_VAR
+    
+    VAR_GLOBAL        
+        // Controls
+        StartSignal: BoolInput;
+        StartLightSignal: BoolOutput;
+        startButton : ButtonWithLight := (Signal:= StartSignal ,  LightSignal:= StartLightSignal);
 
-    // Controls
-    VAR_GLOBAL
-        startButton : ButtonWithLight;
-        resetButton : ButtonWithLight;
-        stopButton : ButtonWithLight;
-        switch: ModeSwitch;
-        emergencyStop: Button;        
-    END_VAR
+        ResetSignal: BoolInput;
+        ResetLightSignal: BoolOutput;        
+        resetButton : ButtonWithLight := (Signal:= ResetSignal ,  LightSignal:= ResetLightSignal);
 
-    // Conveyor
-    VAR_GLOBAL
-        basesConveyor: Conveyor;
-        lidsConveyor: Conveyor;
-        baseAtPlaceSensor: ObjectSensor;
-        partLeavingSensor: ObjectSensor;
-        lidAtPlaceSensor: ObjectSensor;
-        baseClamp: Clamp;
-        lidClamp: Clamp;
-    END_VAR
+        StopSignal: BoolInput;
+        StopLightSignal: BoolOutput;
+        stopButton : ButtonWithLight := (Signal:= StopSignal, LightSignal:= StopLightSignal);
 
-    // PickPlace
-    VAR_GLOBAL
-        twoAxisPickPlace: TwoAxisPickPlace;
-    END_VAR
+        ModeSwitchSignal: BoolInput;
+        switch: ModeSwitch := (ModeSignal:= ModeSwitchSignal);
 
-    // Assembler
-    VAR_GLOBAL
+        EmergencyStopSignal: BoolInput;
+        emergencyStop: Button := (Signal:= EmergencyStopSignal);
+
+        // Conveyor
+        BaseConveyorControlSignal: BoolOutput;
+        LidsConveyorControlSignal: BoolOutput;
+
+        basesConveyor: Conveyor:=(ControlSignal:= BaseConveyorControlSignal);
+        lidsConveyor: Conveyor:=(ControlSignal:= LidsConveyorControlSignal);
+
+        //Sensors        
+        BaseAtPlaceSensorSignal: BoolInput;
+        PartLeavingSensorSignal: BoolInput;
+        LidAtPlaceSensorSignal: BoolInput;
+
+        baseAtPlaceSensor: ObjectSensor:=(ObjectDetectedInput:= BaseAtPlaceSensorSignal);
+        partLeavingSensor: ObjectSensor:=(ObjectDetectedInput:= PartLeavingSensorSignal);
+        lidAtPlaceSensor: ObjectSensor:=(ObjectDetectedInput:= LidAtPlaceSensorSignal);
+
+        //Clamps
+        BaseClampedSignal: BoolInput;
+        BaseClampControlSignal: BoolOutput;
+        BaseClampRaiseSignal: BoolOutput;
+
+        LidClampedSignal: BoolInput;
+        LidClampControlSignal: BoolOutput;
+        LidClampRaiseSignal: BoolOutput;
+
+        baseClamp: Clamp:=(ClampedSignal:= BaseClampedSignal, ClampSignal:= BaseClampControlSignal, RaiseSignal:= BaseClampRaiseSignal);
+        lidClamp: Clamp:=(ClampedSignal:= LidClampedSignal, ClampSignal:= LidClampControlSignal, RaiseSignal:= LidClampRaiseSignal);
+        
+        // PickPlace
+        MovingXSignal: BoolInput;
+        MovingZSignal: BoolInput;
+        ItemDetectedSignal: BoolInput;
+
+        MoveXControlSignal: BoolOutput;
+        MoveZControlSignal: BoolOutput;
+        GrabControlSignal: BoolOutput;
+
+        twoAxisPickPlace: TwoAxisPickPlace:=(
+            MovingX:=MovingXSignal,
+            MovingZ:=MovingZSignal, 
+            ItemDetected:=ItemDetectedSignal,
+            MoveX:=MoveXControlSignal,
+            MoveZ:=MoveZControlSignal,
+            Grab:=GrabControlSignal);
+        
+        // Assembler
         assembler: Assembler;
     END_VAR
 END_CONFIGURATION

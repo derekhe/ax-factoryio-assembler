@@ -6,6 +6,10 @@ CLASS Conveyor
         _isStopped : BOOL;
     END_VAR
 
+    VAR PUBLIC
+        ControlSignal: IBoolOutput;
+    END_VAR
+
     METHOD PUBLIC Start
         _isOn := TRUE;
     END_METHOD
@@ -19,9 +23,6 @@ CLASS Conveyor
     END_METHOD
 
     METHOD PUBLIC Output
-        VAR_OUTPUT
-            run : BOOL;
-        END_VAR
-        run := _isOn;
+        ControlSignal.SetValue(_isOn);
     END_METHOD
 END_CLASS

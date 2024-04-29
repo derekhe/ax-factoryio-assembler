@@ -32,26 +32,65 @@ PROGRAM MyProgram
         qCounter : DINT;
     END_VAR
     VAR_EXTERNAL
+        StartSignal: BoolInput;
+        StartLightSignal: BoolOutput;
         startButton : ButtonWithLight;
+
+        ResetSignal: BoolInput;
+        ResetLightSignal: BoolOutput;        
+        resetButton : ButtonWithLight;
+
+        StopSignal: BoolInput;
+        StopLightSignal: BoolOutput;
         stopButton : ButtonWithLight;
-        resetButton : ButtonWithLight;        
-        switch : ModeSwitch;
+
+        ModeSwitchSignal: BoolInput;
+        switch: ModeSwitch;
+
+        EmergencyStopSignal: BoolInput;
         emergencyStop: Button;
-    END_VAR
-    VAR_EXTERNAL
+
+        // Conveyor
+        BaseConveyorControlSignal: BoolOutput;
+        LidsConveyorControlSignal: BoolOutput;
+
         basesConveyor: Conveyor;
         lidsConveyor: Conveyor;
+
+        //Sensors        
+        BaseAtPlaceSensorSignal: BoolInput;
+        PartLeavingSensorSignal: BoolInput;
+        LidAtPlaceSensorSignal: BoolInput;
+
         baseAtPlaceSensor: ObjectSensor;
         partLeavingSensor: ObjectSensor;
         lidAtPlaceSensor: ObjectSensor;
+
+        //Clamps
+        BaseClampedSignal: BoolInput;
+        BaseClampControlSignal: BoolOutput;
+        BaseClampRaiseSignal: BoolOutput;
+
+        LidClampedSignal: BoolInput;
+        LidClampControlSignal: BoolOutput;
+        LidClampRaiseSignal: BoolOutput;
+
         baseClamp: Clamp;
         lidClamp: Clamp;
-    END_VAR
-    VAR_EXTERNAL
+        
+        // PickPlace
+        MovingXSignal: BoolInput;
+        MovingZSignal: BoolInput;
+        ItemDetectedSignal: BoolInput;
+
+        MoveXControlSignal: BoolOutput;
+        MoveZControlSignal: BoolOutput;
+        GrabControlSignal: BoolOutput;
+
         twoAxisPickPlace: TwoAxisPickPlace;
-    END_VAR
-    VAR_EXTERNAL
-        assembler : Assembler;
+        
+        // Assembler
+        assembler: Assembler;
     END_VAR    
     VAR
         baseDelayTimer: OnDelay;
@@ -59,17 +98,19 @@ PROGRAM MyProgram
     END_VAR
     
     // Inputs
-    startButton.Input(iStart);
-    resetButton.Input(iReset);
-    stopButton.Input(NOT(iStop));
-    emergencyStop.Input(NOT(iEmergencyStop));
-    switch.Input(iAuto);
-    baseAtPlaceSensor.Input(iBaseAtPlace);
-    partLeavingSensor.Input(iPartLeaving);
-    lidAtPlaceSensor.Input(iLidAtPlace);
-    twoAxisPickPlace.Input(iMovingX, iMovingZ, iItemDetected);
-    lidClamp.Input(iLidClamped);
-    baseClamp.Input(iBaseClamped);
+    StartSignal.ReadCyclic(iStart);
+    ResetSignal.ReadCyclic(iReset);
+    StopSignal.ReadCyclic(iStop);
+    ModeSwitchSignal.ReadCyclic(iAuto);
+    EmergencyStopSignal.ReadCyclic(iEmergencyStop);
+    BaseAtPlaceSensorSignal.ReadCyclic(iBaseAtPlace);
+    PartLeavingSensorSignal.ReadCyclic(iPartLeaving);
+    LidAtPlaceSensorSignal.ReadCyclic(iLidAtPlace);
+    BaseClampedSignal.ReadCyclic(iBaseClamped);
+    LidClampedSignal.ReadCyclic(iLidClamped);
+    MovingXSignal.ReadCyclic(iMovingX);
+    MovingZSignal.ReadCyclic(iMovingZ);
+    ItemDetectedSignal.ReadCyclic(iItemDetected);
 
     // Executions
     IF emergencyStop.IsPressed() THEN
@@ -92,15 +133,19 @@ PROGRAM MyProgram
     
     // Cycles
     twoAxisPickPlace.Cycle();
-    assembler.Cyclic();
+    assembler.Cycle();
 
     // Outputs
-    startButton.Output(qStartLight);
-    resetButton.Output(qResetLight);
-    stopButton.Output(qStopLight);
-    basesConveyor.Output(qBasesConveyor);
-    lidsConveyor.Output(qLidsConveyor);
-    baseClamp.Output(qClampBase, qPosRaiseBases);
-    lidClamp.Output(qClampLid, qPosRaiseLids);
-    twoAxisPickPlace.Output(qMoveX, qMoveZ, qGrab);
+    StartLightSignal.WriteCyclic(qStartLight);
+    ResetLightSignal.WriteCyclic(qResetLight);
+    StopLightSignal.WriteCyclic(qStopLight);
+    BaseConveyorControlSignal.WriteCyclic(qBasesConveyor);
+    LidsConveyorControlSignal.WriteCyclic(qLidsConveyor);
+    BaseClampControlSignal.WriteCyclic(qClampBase);
+    BaseClampRaiseSignal.WriteCyclic(qPosRaiseBases);
+    LidClampControlSignal.WriteCyclic(qClampLid);
+    LidClampRaiseSignal.WriteCyclic(qPosRaiseLids);
+    MoveXControlSignal.WriteCyclic(qMoveX);
+    MoveZControlSignal.WriteCyclic(qMoveZ);
+    GrabControlSignal.WriteCyclic(qGrab);
 END_PROGRAM
