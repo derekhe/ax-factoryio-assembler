@@ -1,0 +1,5 @@
+INTERFACE ICyclic
+    METHOD Cycle
+
+    END_METHOD
+END_INTERFACE
