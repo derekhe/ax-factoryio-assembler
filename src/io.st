@@ -34,9 +34,9 @@ FUNCTION RefreshInput
 
     StartSignal.ReadCyclic(iStart);
     ResetSignal.ReadCyclic(iReset);
-    StopSignal.ReadCyclic(iStop);
+    StopSignal.ReadCyclic(NOT(iStop));
     ModeSwitchSignal.ReadCyclic(iAuto);
-    EmergencyStopSignal.ReadCyclic(iEmergencyStop);
+    EmergencyStopSignal.ReadCyclic(NOT(iEmergencyStop));
     BaseAtPlaceSensorSignal.ReadCyclic(iBaseAtPlace);
     PartLeavingSensorSignal.ReadCyclic(iPartLeaving);
     LidAtPlaceSensorSignal.ReadCyclic(iLidAtPlace);
@@ -45,6 +45,49 @@ FUNCTION RefreshInput
     MovingXSignal.ReadCyclic(iMovingX);
     MovingZSignal.ReadCyclic(iMovingZ);
     ItemDetectedSignal.ReadCyclic(iItemDetected);
+END_FUNCTION
+
+FUNCTION Cycle
+    VAR_EXTERNAL
+        startButton : ButtonWithLight;
+        resetButton : ButtonWithLight;
+        stopButton : ButtonWithLight;
+        emergencyStop: Button;
+        switch: ModeSwitch;
+
+        basesConveyor: Conveyor;
+        lidsConveyor: Conveyor;
+
+        baseAtPlaceSensor: ObjectSensor;
+        partLeavingSensor: ObjectSensor;
+        lidAtPlaceSensor: ObjectSensor;
+
+        baseClamp: Clamp;
+        lidClamp: Clamp;
+
+        twoAxisPickPlace: TwoAxisPickPlace;
+
+        assembler: Assembler;
+    END_VAR
+
+    startButton.Cycle();
+    resetButton.Cycle();
+    stopButton.Cycle();
+    emergencyStop.Cycle();
+    switch.Cycle();
+
+    basesConveyor.Cycle();
+    lidsConveyor.Cycle();
+
+    baseAtPlaceSensor.Cycle();
+    partLeavingSensor.Cycle();
+    lidAtPlaceSensor.Cycle();
+
+    baseClamp.Cycle();
+    lidClamp.Cycle();
+
+    twoAxisPickPlace.Cycle();
+    assembler.Cycle();
 END_FUNCTION
 
 FUNCTION RefreshOutput
@@ -76,8 +119,10 @@ FUNCTION RefreshOutput
         MoveXControlSignal: BoolOutput;
         MoveZControlSignal: BoolOutput;
         GrabControlSignal: BoolOutput;
+        assembler: Assembler;
     END_VAR
-    
+
+    qCounter:=assembler.GetCount();
     StartLightSignal.WriteCyclic(qStartLight);
     ResetLightSignal.WriteCyclic(qResetLight);
     StopLightSignal.WriteCyclic(qStopLight);

@@ -1,6 +1,6 @@
 USING System.Timer;
 
-CLASS Conveyor
+CLASS Conveyor IMPLEMENTS ICyclic
     VAR
         _isOn : BOOL;
         _isStopped : BOOL;
@@ -22,7 +22,7 @@ CLASS Conveyor
         IsStopped := NOT(_isOn);
     END_METHOD
 
-    METHOD PUBLIC Output
+    METHOD PUBLIC Cycle
         ControlSignal.SetValue(_isOn);
     END_METHOD
 END_CLASS
