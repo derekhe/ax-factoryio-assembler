@@ -1,10 +1,10 @@
 CLASS Button IMPLEMENTS ICyclic
     VAR PUBLIC
-        Signal: IBoolInput;
+        Signal: REF_TO BOOL;
     END_VAR
 
     METHOD PUBLIC IsPressed : BOOL
-        IsPressed := Signal.GetValue();
+        IsPressed := Signal^;
     END_METHOD
 
     METHOD PUBLIC Cycle

@@ -7,7 +7,7 @@ CLASS Conveyor IMPLEMENTS ICyclic
     END_VAR
 
     VAR PUBLIC
-        ControlSignal: IBoolOutput;
+        ControlSignal: REF_TO BOOL;
     END_VAR
 
     METHOD PUBLIC Start
@@ -23,6 +23,6 @@ CLASS Conveyor IMPLEMENTS ICyclic
     END_METHOD
 
     METHOD PUBLIC Cycle
-        ControlSignal.SetValue(_isOn);
+        ControlSignal^ := _isOn;
     END_METHOD
 END_CLASS

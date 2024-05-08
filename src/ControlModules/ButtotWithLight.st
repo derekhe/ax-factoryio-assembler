@@ -1,9 +1,9 @@
 CLASS ButtonWithLight EXTENDS Button IMPLEMENTS ICyclic
     VAR PUBLIC
-        LightSignal: IBoolOutput;
+        LightSignal: REF_TO BOOL;
     END_VAR
 
     METHOD PUBLIC OVERRIDE Cycle
-        LightSignal.SetValue(Signal.GetValue());
+        LightSignal := Signal;
     END_METHOD
 END_CLASS

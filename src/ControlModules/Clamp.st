@@ -5,13 +5,13 @@ CLASS Clamp IMPLEMENTS ICyclic
     END_VAR
 
     VAR PUBLIC
-        ClampedSignal: IBoolInput;
-        ClampSignal: IBoolOutput;
-        RaiseSignal: IBoolOutput;
+        ClampedSignal: REF_TO BOOL;
+        ClampSignal: REF_TO BOOL;
+        RaiseSignal: REF_TO BOOL;
     END_VAR
 
     METHOD IsClamped : BOOL
-        IsClamped := ClampedSignal.GetValue();
+        IsClamped := ClampedSignal^;
     END_METHOD
 
     METHOD PUBLIC DoClamp
@@ -36,7 +36,7 @@ CLASS Clamp IMPLEMENTS ICyclic
     END_METHOD
 
     METHOD PUBLIC Cycle
-        ClampSignal.SetValue(_clampCmd);
-        RaiseSignal.SetValue(_raiseCmd);
+        ClampSignal^ := _clampCmd;
+        RaiseSignal^ := _raiseCmd;
     END_METHOD
 END_CLASS

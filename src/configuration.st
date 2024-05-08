@@ -41,68 +41,68 @@ CONFIGURATION MyConfiguration
     
     VAR_GLOBAL        
         // Controls
-        StartSignal: BoolInput;
-        StartLightSignal: BoolOutput;
-        startButton : ButtonWithLight := (Signal:= StartSignal ,  LightSignal:= StartLightSignal);
+        StartSignal: BOOL;
+        StartLightSignal: BOOL;
+        startButton : ButtonWithLight := (Signal:= REF(StartSignal) ,  LightSignal:= REF(StartLightSignal));
 
-        ResetSignal: BoolInput;
-        ResetLightSignal: BoolOutput;        
-        resetButton : ButtonWithLight := (Signal:= ResetSignal ,  LightSignal:= ResetLightSignal);
+        ResetSignal: BOOL;
+        ResetLightSignal: BOOL;        
+        resetButton : ButtonWithLight := (Signal:= REF(ResetSignal),  LightSignal:= REF(ResetLightSignal));
 
-        StopSignal: BoolInput;
-        StopLightSignal: BoolOutput;
-        stopButton : ButtonWithLight := (Signal:= StopSignal, LightSignal:= StopLightSignal);
+        StopSignal: BOOL;
+        StopLightSignal: BOOL;
+        stopButton : ButtonWithLight := (Signal:=REF(StopSignal), LightSignal:= REF(StopLightSignal));
 
-        ModeSwitchSignal: BoolInput;
-        switch: ModeSwitch := (ModeSignal:= ModeSwitchSignal);
+        ModeSwitchSignal: BOOL;
+        switch: ModeSwitch := (ModeSignal:= REF(ModeSwitchSignal));
 
-        EmergencyStopSignal: BoolInput;
-        emergencyStop: Button := (Signal:= EmergencyStopSignal);
+        EmergencyStopSignal: BOOL;
+        emergencyStop: Button := (Signal:= REF(EmergencyStopSignal));
 
         // Conveyor
-        BaseConveyorControlSignal: BoolOutput;
-        LidsConveyorControlSignal: BoolOutput;
+        BaseConveyorControlSignal: BOOL;
+        LidsConveyorControlSignal: BOOL;
 
-        basesConveyor: Conveyor:=(ControlSignal:= BaseConveyorControlSignal);
-        lidsConveyor: Conveyor:=(ControlSignal:= LidsConveyorControlSignal);
+        basesConveyor: Conveyor:=(ControlSignal:= REF(BaseConveyorControlSignal));
+        lidsConveyor: Conveyor:=(ControlSignal:= REF(LidsConveyorControlSignal));
 
         //Sensors        
-        BaseAtPlaceSensorSignal: BoolInput;
-        PartLeavingSensorSignal: BoolInput;
-        LidAtPlaceSensorSignal: BoolInput;
+        BaseAtPlaceSensorSignal: BOOL;
+        PartLeavingSensorSignal: BOOL;
+        LidAtPlaceSensorSignal: BOOL;
 
-        baseAtPlaceSensor: ObjectSensor:=(ObjectDetectedInput:= BaseAtPlaceSensorSignal);
-        partLeavingSensor: ObjectSensor:=(ObjectDetectedInput:= PartLeavingSensorSignal);
-        lidAtPlaceSensor: ObjectSensor:=(ObjectDetectedInput:= LidAtPlaceSensorSignal);
+        baseAtPlaceSensor: ObjectSensor:=(ObjectDetectedInput:= REF(BaseAtPlaceSensorSignal));
+        partLeavingSensor: ObjectSensor:=(ObjectDetectedInput:= REF(PartLeavingSensorSignal));
+        lidAtPlaceSensor: ObjectSensor:=(ObjectDetectedInput:= REF(LidAtPlaceSensorSignal));
 
         //Clamps
-        BaseClampedSignal: BoolInput;
-        BaseClampControlSignal: BoolOutput;
-        BaseClampRaiseSignal: BoolOutput;
+        BaseClampedSignal: BOOL;
+        BaseClampControlSignal: BOOL;
+        BaseClampRaiseSignal: BOOL;
 
-        LidClampedSignal: BoolInput;
-        LidClampControlSignal: BoolOutput;
-        LidClampRaiseSignal: BoolOutput;
+        LidClampedSignal: BOOL;
+        LidClampControlSignal: BOOL;
+        LidClampRaiseSignal: BOOL;
 
-        baseClamp: Clamp:=(ClampedSignal:= BaseClampedSignal, ClampSignal:= BaseClampControlSignal, RaiseSignal:= BaseClampRaiseSignal);
-        lidClamp: Clamp:=(ClampedSignal:= LidClampedSignal, ClampSignal:= LidClampControlSignal, RaiseSignal:= LidClampRaiseSignal);
+        baseClamp: Clamp:=(ClampedSignal:= REF(BaseClampedSignal), ClampSignal:= REF(BaseClampControlSignal), RaiseSignal:= REF(BaseClampRaiseSignal));
+        lidClamp: Clamp:=(ClampedSignal:= REF(LidClampedSignal), ClampSignal:= REF(LidClampControlSignal), RaiseSignal:= REF(LidClampRaiseSignal));
         
         // PickPlace
-        MovingXSignal: BoolInput;
-        MovingZSignal: BoolInput;
-        ItemDetectedSignal: BoolInput;
+        MovingXSignal: BOOL;
+        MovingZSignal: BOOL;
+        ItemDetectedSignal: BOOL;
 
-        MoveXControlSignal: BoolOutput;
-        MoveZControlSignal: BoolOutput;
-        GrabControlSignal: BoolOutput;
+        MoveXControlSignal: BOOL;
+        MoveZControlSignal: BOOL;
+        GrabControlSignal: BOOL;
 
         twoAxisPickPlace: TwoAxisPickPlace:=(
-            MovingX:=MovingXSignal,
-            MovingZ:=MovingZSignal, 
-            ItemDetected:=ItemDetectedSignal,
-            MoveX:=MoveXControlSignal,
-            MoveZ:=MoveZControlSignal,
-            Grab:=GrabControlSignal);
+            MovingX:=REF(MovingXSignal),
+            MovingZ:=REF(MovingZSignal),
+            ItemDetected:=REF(ItemDetectedSignal),
+            MoveX:=REF(MoveXControlSignal),
+            MoveZ:=REF(MoveZControlSignal),
+            Grab:=REF(GrabControlSignal));
         
         // Assembler
         assembler: Assembler;

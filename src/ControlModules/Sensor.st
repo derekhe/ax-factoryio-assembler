@@ -4,7 +4,7 @@ CLASS ObjectSensor IMPLEMENTS ICyclic
     END_VAR
 
     VAR PUBLIC
-        ObjectDetectedInput: IBoolInput;
+        ObjectDetectedInput: REF_TO BOOL;
     END_VAR
 
     METHOD PUBLIC HasObjectPassed : BOOL        
@@ -16,6 +16,6 @@ CLASS ObjectSensor IMPLEMENTS ICyclic
     END_METHOD
 
     METHOD PUBLIC Cycle
-        _hasObjectPassed :=  _hasObjectPassed | objectDetectedInput.GetValue();
+        _hasObjectPassed :=  _hasObjectPassed | objectDetectedInput^;
     END_METHOD
 END_CLASS

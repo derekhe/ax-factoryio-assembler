@@ -5,7 +5,7 @@ END_TYPE
 
 CLASS ModeSwitch IMPLEMENTS ICyclic
     VAR PUBLIC
-        ModeSignal: IBoolInput;
+        ModeSignal: REF_TO BOOL;
     END_VAR
 
     VAR PRIVATE
@@ -17,7 +17,7 @@ CLASS ModeSwitch IMPLEMENTS ICyclic
     END_METHOD
 
     METHOD PUBLIC Cycle
-        IF ModeSignal.GetValue() THEN
+        IF ModeSignal^ THEN
             _mode := OperationMode#Auto;
         ELSE
             _mode := OperationMode#Manual;

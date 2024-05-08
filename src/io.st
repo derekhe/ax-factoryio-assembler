@@ -17,34 +17,34 @@ FUNCTION RefreshInput
         iAuto : BOOL;
     END_VAR
     VAR_EXTERNAL
-        StartSignal: BoolInput;
-        ResetSignal: BoolInput;
-        StopSignal: BoolInput;
-        ModeSwitchSignal: BoolInput;
-        EmergencyStopSignal: BoolInput;
-        BaseAtPlaceSensorSignal: BoolInput;
-        PartLeavingSensorSignal: BoolInput;
-        LidAtPlaceSensorSignal: BoolInput;
-        BaseClampedSignal: BoolInput;
-        LidClampedSignal: BoolInput;
-        MovingXSignal: BoolInput;
-        MovingZSignal: BoolInput;
-        ItemDetectedSignal: BoolInput;
+        StartSignal: BOOL;
+        ResetSignal: BOOL;
+        StopSignal: BOOL;
+        ModeSwitchSignal: BOOL;
+        EmergencyStopSignal: BOOL;
+        BaseAtPlaceSensorSignal: BOOL;
+        PartLeavingSensorSignal: BOOL;
+        LidAtPlaceSensorSignal: BOOL;
+        BaseClampedSignal: BOOL;
+        LidClampedSignal: BOOL;
+        MovingXSignal: BOOL;
+        MovingZSignal: BOOL;
+        ItemDetectedSignal: BOOL;
     END_VAR    
 
-    StartSignal.ReadCyclic(iStart);
-    ResetSignal.ReadCyclic(iReset);
-    StopSignal.ReadCyclic(NOT(iStop));
-    ModeSwitchSignal.ReadCyclic(iAuto);
-    EmergencyStopSignal.ReadCyclic(NOT(iEmergencyStop));
-    BaseAtPlaceSensorSignal.ReadCyclic(iBaseAtPlace);
-    PartLeavingSensorSignal.ReadCyclic(iPartLeaving);
-    LidAtPlaceSensorSignal.ReadCyclic(iLidAtPlace);
-    BaseClampedSignal.ReadCyclic(iBaseClamped);
-    LidClampedSignal.ReadCyclic(iLidClamped);
-    MovingXSignal.ReadCyclic(iMovingX);
-    MovingZSignal.ReadCyclic(iMovingZ);
-    ItemDetectedSignal.ReadCyclic(iItemDetected);
+    StartSignal := iStart;
+    ResetSignal := iReset;
+    StopSignal := NOT(iStop);
+    ModeSwitchSignal := iAuto;
+    EmergencyStopSignal := NOT(iEmergencyStop);
+    BaseAtPlaceSensorSignal := iBaseAtPlace;
+    PartLeavingSensorSignal := iPartLeaving;
+    LidAtPlaceSensorSignal := iLidAtPlace;
+    BaseClampedSignal := iBaseClamped;
+    LidClampedSignal := iLidClamped;
+    MovingXSignal := iMovingX;
+    MovingZSignal := iMovingZ;
+    ItemDetectedSignal := iItemDetected;
 END_FUNCTION
 
 FUNCTION Cycle
@@ -107,32 +107,32 @@ FUNCTION RefreshOutput
         qCounter : DINT;
     END_VAR
     VAR_EXTERNAL
-        StartLightSignal: BoolOutput;
-        ResetLightSignal: BoolOutput;        
-        StopLightSignal: BoolOutput;
-        BaseConveyorControlSignal: BoolOutput;
-        LidsConveyorControlSignal: BoolOutput;
-        BaseClampControlSignal: BoolOutput;
-        BaseClampRaiseSignal: BoolOutput;
-        LidClampControlSignal: BoolOutput;
-        LidClampRaiseSignal: BoolOutput;
-        MoveXControlSignal: BoolOutput;
-        MoveZControlSignal: BoolOutput;
-        GrabControlSignal: BoolOutput;
+        StartLightSignal: BOOL;
+        ResetLightSignal: BOOL;        
+        StopLightSignal: BOOL;
+        BaseConveyorControlSignal: BOOL;
+        LidsConveyorControlSignal: BOOL;
+        BaseClampControlSignal: BOOL;
+        BaseClampRaiseSignal: BOOL;
+        LidClampControlSignal: BOOL;
+        LidClampRaiseSignal: BOOL;
+        MoveXControlSignal: BOOL;
+        MoveZControlSignal: BOOL;
+        GrabControlSignal: BOOL;
         assembler: Assembler;
     END_VAR
 
     qCounter:=assembler.GetCount();
-    StartLightSignal.WriteCyclic(qStartLight);
-    ResetLightSignal.WriteCyclic(qResetLight);
-    StopLightSignal.WriteCyclic(qStopLight);
-    BaseConveyorControlSignal.WriteCyclic(qBasesConveyor);
-    LidsConveyorControlSignal.WriteCyclic(qLidsConveyor);
-    BaseClampControlSignal.WriteCyclic(qClampBase);
-    BaseClampRaiseSignal.WriteCyclic(qPosRaiseBases);
-    LidClampControlSignal.WriteCyclic(qClampLid);
-    LidClampRaiseSignal.WriteCyclic(qPosRaiseLids);
-    MoveXControlSignal.WriteCyclic(qMoveX);
-    MoveZControlSignal.WriteCyclic(qMoveZ);
-    GrabControlSignal.WriteCyclic(qGrab);
+    qStartLight := StartLightSignal;
+    qResetLight := ResetLightSignal;
+    qStopLight := StopLightSignal;
+    qBasesConveyor := BaseConveyorControlSignal;
+    qLidsConveyor := LidsConveyorControlSignal;
+    qClampBase := BaseClampControlSignal;
+    qPosRaiseBases := BaseClampRaiseSignal;
+    qClampLid := LidClampControlSignal;
+    qPosRaiseLids := LidClampRaiseSignal;
+    qMoveX := MoveXControlSignal;
+    qMoveZ := MoveZControlSignal;
+    qGrab := GrabControlSignal;
 END_FUNCTION

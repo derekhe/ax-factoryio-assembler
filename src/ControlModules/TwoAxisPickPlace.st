@@ -23,13 +23,13 @@ CLASS TwoAxisPickPlace IMPLEMENTS ICyclic
     END_VAR
 
     VAR PUBLIC
-        MovingX : IBoolInput;
-        MovingZ: IBoolInput;
-        ItemDetected : IBoolInput;
+        MovingX : REF_TO BOOL;
+        MovingZ: REF_TO BOOL;
+        ItemDetected : REF_TO BOOL;
 
-        MoveX: IBoolOutput;
-        MoveZ: IBoolOutput;
-        Grab: IBoolOutput;
+        MoveX: REF_TO BOOL;
+        MoveZ: REF_TO BOOL;
+        Grab: REF_TO BOOL;
     END_VAR
     
     METHOD PUBLIC Start
@@ -64,35 +64,35 @@ CLASS TwoAxisPickPlace IMPLEMENTS ICyclic
                 _status := PickPlaceStatus#PICK_MOVING_Z_DOWN;
                 _delayTimer(FALSE);
             PickPlaceStatus#PICK_MOVING_Z_DOWN:
-                _delayTimer(NOT (MovingZ.GetValue()), LT#200ms);
+                _delayTimer(NOT (MovingZ^), LT#200ms);
                 IF _delayTimer.output THEN
                     _delayTimer(FALSE);
                     _grabCmd := TRUE;
                     _status := PickPlaceStatus#GRABING;
                 END_IF;
             PickPlaceStatus#GRABING:
-                _delayTimer(ItemDetected.GetValue(), LT#200ms);
+                _delayTimer(ItemDetected^, LT#200ms);
                 IF _delayTimer.output THEN
                     _moveZCmd := FALSE;
                     _delayTimer(FALSE);
                     _status := PickPlaceStatus#PICK_MOVING_Z_UP;
                 END_IF;
             PickPlaceStatus#PICK_MOVING_Z_UP:
-                _delayTimer(NOT (MovingZ.GetValue()), LT#200ms);
+                _delayTimer(NOT (MovingZ^), LT#200ms);
                 IF _delayTimer.output THEN
                     _moveXCmd := TRUE;
                     _delayTimer(FALSE);
                     _status := PickPlaceStatus#MOVING_X_RIGHT;
                 END_IF;
             PickPlaceStatus#MOVING_X_RIGHT:
-                _delayTimer(NOT (MovingX.GetValue()), LT#200ms);
+                _delayTimer(NOT (MovingX^), LT#200ms);
                 IF _delayTimer.output THEN
                     _moveZCmd := TRUE;
                     _delayTimer(FALSE);
                     _status := PickPlaceStatus#PLACE_MOVING_Z_DOWN;
                 END_IF;
             PickPlaceStatus#PLACE_MOVING_Z_DOWN:
-                _delayTimer(NOT (MovingZ.GetValue()), LT#200ms);
+                _delayTimer(NOT (MovingZ^), LT#200ms);
                 IF _delayTimer.output THEN
                     _moveZCmd := FALSE;
                     _grabCmd := FALSE;
@@ -102,7 +102,7 @@ CLASS TwoAxisPickPlace IMPLEMENTS ICyclic
             PickPlaceStatus#PLACE_MOVING_Z_UP:
                 _moveZCmd := FALSE;
                 
-                _delayTimer(NOT(MovingZ.GetValue()), LT#200ms);
+                _delayTimer(NOT(MovingZ^), LT#200ms);
                 IF _delayTimer.output THEN
                     _delayTimer(FALSE);
                     _status := PickPlaceStatus#COMPLETE;
@@ -120,8 +120,8 @@ CLASS TwoAxisPickPlace IMPLEMENTS ICyclic
                 ;
         END_CASE;
 
-        MoveX.SetValue(_moveXCmd);        
-        MoveZ.SetValue(_moveZCmd);
-        Grab.SetValue(_grabCmd);
+        MoveX^ := _moveXCmd;        
+        MoveZ^ := _moveZCmd;
+        Grab^ := _grabCmd;
     END_METHOD
 END_CLASS
