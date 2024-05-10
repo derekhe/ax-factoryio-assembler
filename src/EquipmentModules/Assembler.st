@@ -49,12 +49,15 @@ CLASS Assembler IMPLEMENTS ICyclic
     END_METHOD
     
     METHOD PUBLIC Reset
+        _status:= AssemblerStatus#STOPPED;
         _counter := 0;
+
         baseConveyor^.Stop();
         baseClamp^.Release();
+        baseClamp^.Down();
 
         lidConveyor^.Stop();
-        lidClamp^.Release();        
+        lidClamp^.Release();
     END_METHOD
 
     METHOD PUBLIC EmergencyStop
