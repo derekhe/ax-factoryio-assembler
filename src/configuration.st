@@ -106,5 +106,8 @@ CONFIGURATION MyConfiguration
         
         // Assembler
         assembler: Assembler;
+        {S7.extern=ReadWrite}
+        {OpcUa = ReadWrite}
+        assemblerStatus: INT;
     END_VAR
 END_CONFIGURATION

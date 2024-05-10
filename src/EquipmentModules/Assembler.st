@@ -1,11 +1,11 @@
 USING System.Timer;
 
 TYPE
-    AssemblerStatus: (
-        IDLE,
-        STARTED, WAITING_FOR_PARTS, CLAMPING_PARTS, PICK_AND_PLACE, MOVE_TO_FINISH, PARTS_LEAVING, 
-        STOPPED, 
-        EMERGENCY_STOPPING);
+    AssemblerStatus: INT (
+        IDLE:=0,
+        STARTED:= 1, WAITING_FOR_PARTS:=2, CLAMPING_PARTS:= 3, PICK_AND_PLACE:=4, MOVE_TO_FINISH:=5, PARTS_LEAVING:=6, 
+        STOPPED:=7, 
+        EMERGENCY_STOPPING:=8);
 END_TYPE
 
 CLASS Assembler IMPLEMENTS ICyclic
@@ -36,6 +36,10 @@ CLASS Assembler IMPLEMENTS ICyclic
 
     METHOD PUBLIC GetCount : DINT
         GetCount := _counter;
+    END_METHOD
+
+    METHOD PUBLIC GetStatus : AssemblerStatus
+        GetStatus:= _status;
     END_METHOD
 
     METHOD PUBLIC Start

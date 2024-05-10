@@ -120,9 +120,11 @@ FUNCTION RefreshOutput
         MoveZControlSignal: BOOL;
         GrabControlSignal: BOOL;
         assembler: Assembler;
+        assemblerStatus : INT;
     END_VAR
 
     qCounter:=assembler.GetCount();
+    assemblerStatus := assembler.GetStatus();
     qStartLight := StartLightSignal;
     qResetLight := ResetLightSignal;
     qStopLight := StopLightSignal;
@@ -134,5 +136,5 @@ FUNCTION RefreshOutput
     qPosRaiseLids := LidClampRaiseSignal;
     qMoveX := MoveXControlSignal;
     qMoveZ := MoveZControlSignal;
-    qGrab := GrabControlSignal;
+    qGrab := GrabControlSignal;    
 END_FUNCTION

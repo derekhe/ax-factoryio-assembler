@@ -12,7 +12,12 @@ devDependencies:
 scripts:
   dl:
     - apax build && apax sld load -i ./bin/plcsim/st-app.app -t 192.168.0.1 --accept-security-disclaimer -r
+  load:
+   - apax sld load -i ./bin/plcsim/st-app.app -t 192.168.0.1 --accept-security-disclaimer -r
+  opc:
+    - apax oscr interface install ./bin/plcsim/st-app.app  -t 192.168.0.1 -s -r --accept-security-disclaimer
 dependencies:
   "@ax/plc-info": ^2.3.0
   "@ax/system-timer": ^6.0.94
   "@ax/simatic-1500-tasks": ^5.0.34
+  "@ax/opcua-server-config": ^0.7.0
