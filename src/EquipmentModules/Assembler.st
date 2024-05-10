@@ -39,7 +39,9 @@ CLASS Assembler IMPLEMENTS ICyclic
     END_METHOD
 
     METHOD PUBLIC Start
-        _status:= AssemblerStatus#STARTED;
+        IF _status = AssemblerStatus#IDLE THEN
+            _status:= AssemblerStatus#STARTED;    
+        END_IF;        
     END_METHOD
 
     METHOD PUBLIC Stop
@@ -49,15 +51,20 @@ CLASS Assembler IMPLEMENTS ICyclic
     END_METHOD
     
     METHOD PUBLIC Reset
-        _status:= AssemblerStatus#STOPPED;
-        _counter := 0;
+        IF _status = AssemblerStatus#STOPPED OR _status = AssemblerStatus#EMERGENCY_STOPPING THEN
+            _status := AssemblerStatus#STOPPED;
+            _counter := 0;
 
-        baseConveyor^.Stop();
-        baseClamp^.Release();
-        baseClamp^.Down();
+            baseConveyor^.Stop();
+            baseClamp^.Release();
+            baseClamp^.Down();
 
-        lidConveyor^.Stop();
-        lidClamp^.Release();
+            twoAxisPickPlace^.Reset();
+
+            lidConveyor^.Stop();
+            lidClamp^.Release();
+            _status := AssemblerStatus#IDLE;
+        END_IF;
     END_METHOD
 
     METHOD PUBLIC EmergencyStop

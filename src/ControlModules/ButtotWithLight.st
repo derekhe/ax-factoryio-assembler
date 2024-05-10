@@ -4,6 +4,6 @@ CLASS ButtonWithLight EXTENDS Button IMPLEMENTS ICyclic
     END_VAR
 
     METHOD PUBLIC OVERRIDE Cycle
-        LightSignal := Signal;
+        LightSignal^ := Signal^;
     END_METHOD
 END_CLASS
