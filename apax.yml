@@ -11,7 +11,7 @@ devDependencies:
   "@ax/sdk": 2311.0.3
 scripts:
   dl:
-    - apax build && apax sld load -i ./bin/plcsim/st-app.app -t 192.168.0.1 --accept-security-disclaimer -r
+    - apax build && apax load && apax opc
   load:
    - apax sld load -i ./bin/plcsim/st-app.app -t 192.168.0.1 --accept-security-disclaimer -r
   opc:

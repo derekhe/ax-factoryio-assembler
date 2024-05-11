@@ -1,10 +1,15 @@
 CLASS Button IMPLEMENTS ICyclic
     VAR PUBLIC
         Signal: REF_TO BOOL;
+        HMI: REF_TO BOOL;
     END_VAR
 
     METHOD PUBLIC IsPressed : BOOL
-        IsPressed := Signal^;
+        IF HMI <> NULL THEN
+            IsPressed := Signal^ OR HMI^;
+        ELSE
+            IsPressed := Signal^;
+        END_IF;
     END_METHOD
 
     METHOD PUBLIC Cycle

@@ -67,7 +67,7 @@ FUNCTION Cycle
 
         twoAxisPickPlace: TwoAxisPickPlace;
 
-        assembler: Assembler;
+        assembler: Assembler;        
     END_VAR
 
     startButton.Cycle();
@@ -120,11 +120,11 @@ FUNCTION RefreshOutput
         MoveZControlSignal: BOOL;
         GrabControlSignal: BOOL;
         assembler: Assembler;
-        assemblerStatus : INT;
+        hmiCount : DINT;
     END_VAR
 
     qCounter:=assembler.GetCount();
-    assemblerStatus := assembler.GetStatus();
+    hmiCount:=assembler.GetCount();    
     qStartLight := StartLightSignal;
     qResetLight := ResetLightSignal;
     qStopLight := StopLightSignal;

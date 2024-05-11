@@ -43,15 +43,15 @@ CONFIGURATION MyConfiguration
         // Controls
         StartSignal: BOOL;
         StartLightSignal: BOOL;
-        startButton : ButtonWithLight := (Signal:= REF(StartSignal) ,  LightSignal:= REF(StartLightSignal));
+        startButton : ButtonWithLight := (Signal:= REF(StartSignal) ,  LightSignal:= REF(StartLightSignal), HMI:=REF(hmiStart));
 
         ResetSignal: BOOL;
         ResetLightSignal: BOOL;        
-        resetButton : ButtonWithLight := (Signal:= REF(ResetSignal),  LightSignal:= REF(ResetLightSignal));
+        resetButton : ButtonWithLight := (Signal:= REF(ResetSignal),  LightSignal:= REF(ResetLightSignal), HMI:=REF(hmiReset));
 
         StopSignal: BOOL;
         StopLightSignal: BOOL;
-        stopButton : ButtonWithLight := (Signal:=REF(StopSignal), LightSignal:= REF(StopLightSignal));
+        stopButton : ButtonWithLight := (Signal:=REF(StopSignal), LightSignal:= REF(StopLightSignal), HMI:=REF(hmiStop));
 
         ModeSwitchSignal: BOOL;
         switch: ModeSwitch := (ModeSignal:= REF(ModeSwitchSignal));
@@ -106,8 +106,23 @@ CONFIGURATION MyConfiguration
         
         // Assembler
         assembler: Assembler;
+    END_VAR
+
+    VAR_GLOBAL
         {S7.extern=ReadWrite}
         {OpcUa = ReadWrite}
-        assemblerStatus: INT;
+        hmiStart:BOOL;
+
+        {S7.extern=ReadWrite}
+        {OpcUa = ReadWrite}
+        hmiStop:BOOL;
+
+        {S7.extern=ReadWrite}
+        {OpcUa = ReadWrite}
+        hmiReset:BOOL;
+
+        {S7.extern=ReadWrite}
+        {OpcUa = ReadWrite}
+        hmiCount:DINT;
     END_VAR
 END_CONFIGURATION
