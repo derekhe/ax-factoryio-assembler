@@ -1,5 +1,5 @@
 NAMESPACE Demo.ControlModule
-CLASS Button IMPLEMENTS ICyclic
+CLASS PUBLIC Button IMPLEMENTS ICyclic
     VAR PUBLIC
         Signal: REF_TO BOOL;
         HMI: REF_TO BOOL;
