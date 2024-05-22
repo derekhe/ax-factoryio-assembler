@@ -1,4 +1,6 @@
 USING Siemens.Simatic.S71500.Tasks;
+USING Demo.ControlModule;
+USING Demo.EquipmentModule;
 
 CONFIGURATION MyConfiguration
     TASK Main (PRIORITY := 1);
@@ -105,7 +107,16 @@ CONFIGURATION MyConfiguration
             Grab:=REF(GrabControlSignal));
         
         // Assembler
-        assembler: Assembler;
+        assembler: Assembler := (
+            lidConveyor:=REF(lidsConveyor),
+            baseConveyor:=REF(basesConveyor),
+            baseAtPlaceSensor:=REF(baseAtPlaceSensor),
+            partLeavingSensor:=REF(partLeavingSensor),
+            lidAtPlaceSensor := REF(lidAtPlaceSensor),
+            baseClamp := REF(baseClamp),
+            lidClamp := REF(lidClamp),
+            twoAxisPickPlace := REF(twoAxisPickPlace)
+        );
     END_VAR
 
     VAR_GLOBAL

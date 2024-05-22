@@ -1,3 +1,4 @@
+NAMESPACE Demo.ControlModule
 CLASS Clamp IMPLEMENTS ICyclic
     VAR
         _clampCmd : BOOL;
@@ -40,3 +41,4 @@ CLASS Clamp IMPLEMENTS ICyclic
         RaiseSignal^ := _raiseCmd;
     END_METHOD
 END_CLASS
+END_NAMESPACE

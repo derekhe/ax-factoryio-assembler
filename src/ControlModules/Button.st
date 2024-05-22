@@ -1,3 +1,4 @@
+NAMESPACE Demo.ControlModule
 CLASS Button IMPLEMENTS ICyclic
     VAR PUBLIC
         Signal: REF_TO BOOL;
@@ -16,3 +17,4 @@ CLASS Button IMPLEMENTS ICyclic
         ;
     END_METHOD
 END_CLASS
+END_NAMESPACE

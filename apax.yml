@@ -3,17 +3,16 @@ version: 0.0.0
 type: app
 targets:
   - plcsim
-  - llvm
 variables:
   APAX_BUILD_ARGS:
     - "--debug" # Generate debug information for target "1500"
 devDependencies:
-  "@ax/sdk": 2311.0.3
+  "@ax/sdk": ^2311.1.2
 scripts:
   dl:
     - apax build && apax load && apax opc
   load:
-   - apax sld load -i ./bin/plcsim/st-app.app -t 192.168.0.1 --accept-security-disclaimer -r
+    - apax sld load -i ./bin/plcsim/st-app.app -t 192.168.0.1 --accept-security-disclaimer -r
   opc:
     - apax oscr interface install ./bin/plcsim/st-app.app  -t 192.168.0.1 -s -r --accept-security-disclaimer
 dependencies:

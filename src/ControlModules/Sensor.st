@@ -1,3 +1,4 @@
+NAMESPACE Demo.ControlModule
 CLASS ObjectSensor IMPLEMENTS ICyclic
     VAR
         _hasObjectPassed: BOOL;
@@ -19,3 +20,4 @@ CLASS ObjectSensor IMPLEMENTS ICyclic
         _hasObjectPassed :=  _hasObjectPassed | objectDetectedInput^;
     END_METHOD
 END_CLASS
+END_NAMESPACE

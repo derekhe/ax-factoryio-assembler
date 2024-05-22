@@ -1,4 +1,6 @@
 USING System.Timer;
+USING Demo.ControlModule;
+USING Demo.EquipmentModule;
 
 PROGRAM MyProgram
     RefreshInput();

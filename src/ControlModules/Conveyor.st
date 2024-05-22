@@ -1,5 +1,5 @@
 USING System.Timer;
-
+NAMESPACE Demo.ControlModule
 CLASS Conveyor IMPLEMENTS ICyclic
     VAR
         _isOn : BOOL;
@@ -26,3 +26,4 @@ CLASS Conveyor IMPLEMENTS ICyclic
         ControlSignal^ := _isOn;
     END_METHOD
 END_CLASS
+END_NAMESPACE

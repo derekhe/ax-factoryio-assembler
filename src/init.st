@@ -1,4 +1,6 @@
 USING System.Timer;
+USING Demo.ControlModule;
+USING Demo.EquipmentModule;
 
 PROGRAM InitPLC
     VAR_EXTERNAL
@@ -17,13 +19,4 @@ PROGRAM InitPLC
     partLeavingSensor.Reset();
     lidAtPlaceSensor.Reset();    
     twoAxisPickPlace.Reset();
-
-    assembler.lidConveyor := REF(lidsConveyor);
-    assembler.baseConveyor := REF(basesConveyor);
-    assembler.baseAtPlaceSensor := REF(baseAtPlaceSensor);
-    assembler.partLeavingSensor := REF(partLeavingSensor);
-    assembler.lidAtPlaceSensor := REF(lidAtPlaceSensor);
-    assembler.baseClamp := REF(baseClamp);
-    assembler.lidClamp := REF(lidClamp);
-    assembler.twoAxisPickPlace := REF(twoAxisPickPlace);
 END_PROGRAM

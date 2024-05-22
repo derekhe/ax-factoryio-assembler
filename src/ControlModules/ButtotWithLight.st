@@ -1,3 +1,4 @@
+NAMESPACE Demo.ControlModule
 CLASS ButtonWithLight EXTENDS Button IMPLEMENTS ICyclic
     VAR PUBLIC
         LightSignal: REF_TO BOOL;
@@ -7,3 +8,4 @@ CLASS ButtonWithLight EXTENDS Button IMPLEMENTS ICyclic
         LightSignal^ := Signal^;
     END_METHOD
 END_CLASS
+END_NAMESPACE

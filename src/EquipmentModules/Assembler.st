@@ -1,4 +1,7 @@
 USING System.Timer;
+USING Demo.ControlModule;
+
+NAMESPACE Demo.EquipmentModule
 
 TYPE
     AssemblerStatus: INT (
@@ -161,3 +164,4 @@ CLASS Assembler IMPLEMENTS ICyclic
         END_CASE;
     END_METHOD
 END_CLASS
+END_NAMESPACE

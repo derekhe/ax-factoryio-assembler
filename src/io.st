@@ -1,3 +1,6 @@
+USING Demo.ControlModule;
+USING Demo.EquipmentModule;
+
 FUNCTION RefreshInput
     VAR_EXTERNAL
         iMovingX : BOOL;

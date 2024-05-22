@@ -2,7 +2,7 @@ TYPE
     OperationMode : (Manual, Auto);
 END_TYPE
 
-
+NAMESPACE Demo.ControlModule
 CLASS ModeSwitch IMPLEMENTS ICyclic
     VAR PUBLIC
         ModeSignal: REF_TO BOOL;
@@ -24,3 +24,4 @@ CLASS ModeSwitch IMPLEMENTS ICyclic
         END_IF;
     END_METHOD
 END_CLASS
+END_NAMESPACE

@@ -1,4 +1,5 @@
 USING System.Timer;
+NAMESPACE Demo.ControlModule
 
 TYPE
     PickPlaceStatus : (        
@@ -125,3 +126,4 @@ CLASS TwoAxisPickPlace IMPLEMENTS ICyclic
         Grab^ := _grabCmd;
     END_METHOD
 END_CLASS
+END_NAMESPACE
