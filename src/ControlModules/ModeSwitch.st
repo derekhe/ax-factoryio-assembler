@@ -8,7 +8,7 @@ CLASS ModeSwitch IMPLEMENTS ICyclic
         ModeSignal: REF_TO BOOL;
     END_VAR
 
-    VAR PRIVATE
+    VAR PROTECTED
         _mode: OperationMode;
     END_VAR
 

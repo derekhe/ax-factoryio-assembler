@@ -1,7 +1,7 @@
 NAMESPACE Demo.ControlModule
 CLASS Clamp IMPLEMENTS ICyclic
-    VAR
-        _clampCmd : BOOL;
+    VAR PROTECTED
+        _clampCmd: BOOL;
         _raiseCmd: BOOL;
     END_VAR
 

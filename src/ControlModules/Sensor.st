@@ -1,6 +1,6 @@
 NAMESPACE Demo.ControlModule
 CLASS ObjectSensor IMPLEMENTS ICyclic
-    VAR
+    VAR PROTECTED
         _hasObjectPassed: BOOL;
     END_VAR
 

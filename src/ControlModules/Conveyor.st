@@ -1,7 +1,7 @@
 USING System.Timer;
 NAMESPACE Demo.ControlModule
 CLASS Conveyor IMPLEMENTS ICyclic
-    VAR
+    VAR PROTECTED
         _isOn : BOOL;
         _isStopped : BOOL;
     END_VAR

@@ -23,7 +23,7 @@ CLASS Assembler IMPLEMENTS ICyclic
         twoAxisPickPlace : REF_TO TwoAxisPickPlace;
     END_VAR
 
-    VAR
+    VAR PROTECTED
         _status: AssemblerStatus;
         _baseAtPlaceDelayTimer: OnDelay;
         _lidAtPlaceDelayTimer: OnDelay;

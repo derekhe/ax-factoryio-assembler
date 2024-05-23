@@ -15,7 +15,7 @@ TYPE
 END_TYPE
 
 CLASS TwoAxisPickPlace IMPLEMENTS ICyclic
-    VAR
+    VAR PROTECTED
         _moveZCmd : BOOL;
         _moveXCmd : BOOL;
         _grabCmd : BOOL;
