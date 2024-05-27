@@ -1,5 +1,6 @@
 USING Siemens.Simatic.S71500.Tasks;
 USING Demo.ControlModule;
+USING Demo.ControlModule.States.TwoAxisPickPlace;
 USING Demo.EquipmentModule;
 
 CONFIGURATION MyConfiguration
@@ -104,8 +105,25 @@ CONFIGURATION MyConfiguration
             ItemDetected:=REF(ItemDetectedSignal),
             MoveX:=REF(MoveXControlSignal),
             MoveZ:=REF(MoveZControlSignal),
-            Grab:=REF(GrabControlSignal));
-        
+            Grab:=REF(GrabControlSignal),
+            InitState:=idleState,
+            TheStopState:=stopState,
+            TheResetState:=resetingState
+            );
+
+        // Assemble PickPlace states
+        idleState: IdleState := (Device := REF(twoAxisPickPlace), NextState:= startingState);
+        startingState: StartingState:=(Device := REF(twoAxisPickPlace), NextState:= pickMovingZDwonState);
+        pickMovingZDwonState: PickMovingZDownState:=(Device := REF(twoAxisPickPlace), NextState:=grabbingState);
+        grabbingState: GrabbingState:=(Device := REF(twoAxisPickPlace), NextState:=pickMovingZUpState);
+        pickMovingZUpState: PickMovingZUpState:=(Device := REF(twoAxisPickPlace), NextState:=movingXRightState);
+        movingXRightState: MovingXRightState:=(Device := REF(twoAxisPickPlace), NextState:=placeMovingZDownState);
+        placeMovingZDownState: PlaceMovingZDownState:=(Device := REF(twoAxisPickPlace), NextState:=placeMovingZUpState);
+        placeMovingZUpState: PlaceMovingZUpState:=(Device := REF(twoAxisPickPlace), NextState:=completeState);
+        completeState: CompleteState:=(Device := REF(twoAxisPickPlace), NextState:=idleState);
+        stopState: StopState:=(Device := REF(twoAxisPickPlace), NextState:=resetingState);
+        resetingState: ResetingState:=(Device := REF(twoAxisPickPlace), NextState:=idleState);
+
         // Assembler
         assembler: Assembler := (
             lidConveyor:=REF(lidsConveyor),

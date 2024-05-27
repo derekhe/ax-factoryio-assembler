@@ -130,7 +130,7 @@ CLASS Assembler IMPLEMENTS ICyclic
                     _status := AssemblerStatus#PICK_AND_PLACE;
                 END_IF;
             AssemblerStatus#PICK_AND_PLACE:
-                IF twoAxisPickPlace^.IsDone() THEN                    
+                IF twoAxisPickPlace^.IsDone THEN                    
                     baseClamp^.Raise();
                     _status := AssemblerStatus#MOVE_TO_FINISH;
                 END_IF;

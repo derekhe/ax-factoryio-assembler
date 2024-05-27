@@ -18,5 +18,5 @@ PROGRAM InitPLC
     baseAtPlaceSensor.Reset();
     partLeavingSensor.Reset();
     lidAtPlaceSensor.Reset();    
-    twoAxisPickPlace.Reset();
+    twoAxisPickPlace.Init();
 END_PROGRAM
