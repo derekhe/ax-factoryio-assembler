@@ -10,12 +10,14 @@ INTERFACE IPickPlaceState
     METHOD Cycle END_METHOD
     METHOD OnEntry END_METHOD
     METHOD OnExit END_METHOD
+    METHOD GetStateName:STRING END_METHOD
 END_INTERFACE
 
 CLASS StateBase IMPLEMENTS IPickPlaceState
     VAR PUBLIC 
         Device: REF_TO TwoAxisPickPlace;
         NextState: IPickPlaceState;
+        Name: STRING;
     END_VAR
 
     METHOD PUBLIC Start
@@ -48,6 +50,10 @@ CLASS StateBase IMPLEMENTS IPickPlaceState
 
     METHOD PUBLIC OnExit
         ;
+    END_METHOD
+
+    METHOD PUBLIC GetStateName : STRING
+        GetStateName := Name;
     END_METHOD
 END_CLASS
 

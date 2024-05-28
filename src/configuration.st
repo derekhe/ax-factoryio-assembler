@@ -112,18 +112,18 @@ CONFIGURATION MyConfiguration
             );
 
         // Assemble PickPlace states
-        idleState: IdleState := (Device := REF(twoAxisPickPlace), NextState:= startingState);
-        startingState: StartingState:=(Device := REF(twoAxisPickPlace), NextState:= pickMovingZDwonState);
-        pickMovingZDwonState: PickMovingZDownState:=(Device := REF(twoAxisPickPlace), NextState:=grabbingState);
-        grabbingState: GrabbingState:=(Device := REF(twoAxisPickPlace), NextState:=pickMovingZUpState);
-        pickMovingZUpState: PickMovingZUpState:=(Device := REF(twoAxisPickPlace), NextState:=movingXRightState);
-        movingXRightState: MovingXRightState:=(Device := REF(twoAxisPickPlace), NextState:=placeMovingZDownState);
-        placeMovingZDownState: PlaceMovingZDownState:=(Device := REF(twoAxisPickPlace), NextState:=placeMovingZUpState);
-        placeMovingZUpState: PlaceMovingZUpState:=(Device := REF(twoAxisPickPlace), NextState:=completeState);
-        completeState: CompleteState:=(Device := REF(twoAxisPickPlace), NextState:=idleState);
-        stopState: StopState:=(Device := REF(twoAxisPickPlace), NextState:=resetingState);
-        resetingState: ResetingState:=(Device := REF(twoAxisPickPlace), NextState:=idleState);
-
+        idleState: IdleState := (Name:='Idle', Device := REF(twoAxisPickPlace), NextState:= startingState);
+        startingState: StartingState:=(Name:='Starting', Device := REF(twoAxisPickPlace), NextState:= pickMovingZDwonState);
+        pickMovingZDwonState: PickMovingZDownState:=(Name:='PickMovingZDown', Device := REF(twoAxisPickPlace), NextState:=grabbingState);
+        grabbingState: GrabbingState:=(Name:='Grabbing', Device := REF(twoAxisPickPlace), NextState:=pickMovingZUpState);
+        pickMovingZUpState: PickMovingZUpState:=(Name:='PickMovingZUp', Device := REF(twoAxisPickPlace), NextState:=movingXRightState);
+        movingXRightState: MovingXRightState:=(Name:='MovingXRight', Device := REF(twoAxisPickPlace), NextState:=placeMovingZDownState);
+        placeMovingZDownState: PlaceMovingZDownState:=(Name:='PlaceMovingZDown', Device := REF(twoAxisPickPlace), NextState:=placeMovingZUpState);
+        placeMovingZUpState: PlaceMovingZUpState:=(Name:='PlaceMovingZUp', Device := REF(twoAxisPickPlace), NextState:=completeState);
+        completeState: CompleteState:=(Name:='Complete', Device := REF(twoAxisPickPlace), NextState:=idleState);
+        stopState: StopState:=(Name:='Stop', Device := REF(twoAxisPickPlace), NextState:=resetingState);
+        resetingState: ResetingState:=(Name:='Resetting', Device := REF(twoAxisPickPlace), NextState:=idleState);
+        
         // Assembler
         assembler: Assembler := (
             lidConveyor:=REF(lidsConveyor),
@@ -153,5 +153,9 @@ CONFIGURATION MyConfiguration
         {S7.extern=ReadWrite}
         {OpcUa = ReadWrite}
         hmiCount:DINT;
+
+        {S7.extern=ReadWrite}
+        {OpcUa = ReadWrite}
+        hmiTwoAxisStateName:STRING;
     END_VAR
 END_CONFIGURATION

@@ -123,7 +123,9 @@ FUNCTION RefreshOutput
         MoveZControlSignal: BOOL;
         GrabControlSignal: BOOL;
         assembler: Assembler;
+        twoAxisPickPlace: TwoAxisPickPlace;
         hmiCount : DINT;
+        hmiTwoAxisStateName : STRING;
     END_VAR
 
     qCounter:=assembler.GetCount();
@@ -139,5 +141,6 @@ FUNCTION RefreshOutput
     qPosRaiseLids := LidClampRaiseSignal;
     qMoveX := MoveXControlSignal;
     qMoveZ := MoveZControlSignal;
-    qGrab := GrabControlSignal;    
+    qGrab := GrabControlSignal;
+    hmiTwoAxisStateName:= twoAxisPickPlace.GetStateName();
 END_FUNCTION

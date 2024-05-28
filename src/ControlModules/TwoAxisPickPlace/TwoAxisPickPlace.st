@@ -37,6 +37,10 @@ CLASS TwoAxisPickPlace IMPLEMENTS ICyclic
         _status.OnEntry();
     END_METHOD
 
+    METHOD PUBLIC GetStateName : STRING
+        GetStateName:= _status.GetStateName();
+    END_METHOD
+
     METHOD PUBLIC Start
         _status.Start();
     END_METHOD
