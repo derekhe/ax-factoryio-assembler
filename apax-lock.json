@@ -7,8 +7,8 @@
     "name": "st-app",
     "version": "0.0.0",
     "dependencies": {
-      "@ax/system-timer": "6.0.94",
-      "@ax/simatic-1500-tasks": "^6.0.8"
+      "@ax/simatic-1500-tasks": "6.0.8",
+      "@ax/system-timer": "^7.0.17"
     },
     "devDependencies": {
       "@ax/sdk": "^2405.0.0-rc.9",
@@ -64,13 +64,6 @@
         "@ax/opcua-server-config-linux-x64": "1.0.0"
       }
     },
-    "@ax/system-timer": {
-      "name": "@ax/system-timer",
-      "version": "6.0.94",
-      "integrity": "sha512-z2qQVgSKHt78DJZTgIxoAvZdviUzzZmIC3A5bXoWx3ak4fot7D9sa0bKmKp90kP5JqVnkEbl12zYtrBBEVKmNg==",
-      "resolved": "https://registry.simatic-ax.siemens.com.cn/@ax/system-timer/-/system-timer-6.0.94.tgz",
-      "dependencies": {}
-    },
     "@ax/simatic-1500-tasks": {
       "name": "@ax/simatic-1500-tasks",
       "version": "6.0.8",
@@ -79,6 +72,13 @@
       "dependencies": {
         "@ax/system-datetime": "7.0.17"
       }
+    },
+    "@ax/system-timer": {
+      "name": "@ax/system-timer",
+      "version": "7.0.17",
+      "integrity": "sha512-JC2qA1x0C1loDgzyTO3T3GxT5a7VjXWhRMBovIhoTwbXmY/hs1nD28DvpIPCU1hNz6vxCV0s/BDw+ZwkZXx6hA==",
+      "resolved": "https://registry.simatic-ax.siemens.com.cn/@ax/system-timer/-/system-timer-7.0.17.tgz",
+      "dependencies": {}
     },
     "@ax/axunitst-ls-contrib": {
       "name": "@ax/axunitst-ls-contrib",

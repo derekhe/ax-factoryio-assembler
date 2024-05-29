@@ -19,5 +19,6 @@ scripts:
     - apax oscr interface install ./bin/plcsim/st-app.app  -t 192.168.0.1 -s -r --accept-security-disclaimer
   # restart:
   #   - plc-mode set stop -t 192.168.0.1 --yes --wait:5 && plc-mode set run -t 192.168.1.1 --yes
-dependencies:  
-  "@ax/simatic-1500-tasks": 5.0.34
+dependencies:
+  "@ax/simatic-1500-tasks": 6.0.8
+  "@ax/system-timer": ^7.0.17
