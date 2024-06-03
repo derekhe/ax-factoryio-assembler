@@ -130,14 +130,14 @@ CONFIGURATION MyConfiguration
         
         // Assembler
         assembler: Assembler := (
-            lidConveyor:=REF(lidsConveyor),
-            baseConveyor:=REF(basesConveyor),
-            baseAtPlaceSensor:=REF(baseAtPlaceSensor),
-            partLeavingSensor:=REF(partLeavingSensor),
-            lidAtPlaceSensor := REF(lidAtPlaceSensor),
-            baseClamp := REF(baseClamp),
-            lidClamp := REF(lidClamp),
-            twoAxisPickPlace := REF(twoAxisPickPlace),
+            lidConveyor:=lidsConveyor,
+            baseConveyor:=basesConveyor,
+            baseAtPlaceSensor:=baseAtPlaceSensor,
+            partLeavingSensor:=partLeavingSensor,
+            lidAtPlaceSensor := lidAtPlaceSensor,
+            baseClamp := baseClamp,
+            lidClamp := lidClamp,
+            twoAxisPickPlace := twoAxisPickPlace,
             counter := REF(counter)
         );
     END_VAR

@@ -1,5 +1,23 @@
 NAMESPACE Demo.ControlModule
-CLASS Clamp IMPLEMENTS ICyclic
+
+INTERFACE IClamp EXTENDS ICyclic
+    METHOD DoClamp
+    END_METHOD
+
+    METHOD Release
+    END_METHOD
+
+    METHOD Raise
+    END_METHOD
+
+    METHOD Down
+    END_METHOD
+
+    METHOD Reset
+    END_METHOD
+END_INTERFACE
+    
+CLASS Clamp IMPLEMENTS IClamp
     VAR PROTECTED
         _clampCmd: BOOL;
         _raiseCmd: BOOL;
@@ -10,10 +28,6 @@ CLASS Clamp IMPLEMENTS ICyclic
         ClampSignal: REF_TO BOOL;
         RaiseSignal: REF_TO BOOL;
     END_VAR
-
-    METHOD IsClamped : BOOL
-        IsClamped := ClampedSignal^;
-    END_METHOD
 
     METHOD PUBLIC DoClamp
         _clampCmd := TRUE;

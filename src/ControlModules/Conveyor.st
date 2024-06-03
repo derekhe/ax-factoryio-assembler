@@ -1,9 +1,17 @@
 USING System.Timer;
 NAMESPACE Demo.ControlModule
-CLASS Conveyor IMPLEMENTS ICyclic
+
+INTERFACE IConveyor EXTENDS ICyclic
+    METHOD Start
+    END_METHOD
+
+    METHOD Stop
+    END_METHOD
+END_INTERFACE
+
+CLASS Conveyor IMPLEMENTS IConveyor
     VAR PROTECTED
         _isOn : BOOL;
-        _isStopped : BOOL;
     END_VAR
 
     VAR PUBLIC
@@ -16,10 +24,6 @@ CLASS Conveyor IMPLEMENTS ICyclic
 
     METHOD PUBLIC Stop
         _isOn := FALSE;
-    END_METHOD
-
-    METHOD IsStopped : BOOL
-        IsStopped := NOT(_isOn);
     END_METHOD
 
     METHOD PUBLIC Cycle

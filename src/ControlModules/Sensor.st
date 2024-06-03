@@ -1,5 +1,14 @@
 NAMESPACE Demo.ControlModule
-CLASS ObjectSensor IMPLEMENTS ICyclic
+
+INTERFACE IObjectSensor EXTENDS ICyclic
+    METHOD HasObjectPassed : BOOL
+    END_METHOD
+
+    METHOD Reset
+    END_METHOD
+END_INTERFACE
+
+CLASS ObjectSensor IMPLEMENTS IObjectSensor
     VAR PROTECTED
         _hasObjectPassed: BOOL;
     END_VAR
