@@ -41,6 +41,10 @@ CONFIGURATION MyConfiguration
         qStopLight AT %Q1.3 : BOOL;
         qCounter AT %QD30 : DINT;
     END_VAR
+
+    VAR_GLOBAL RETAIN
+        counter: DINT;
+    END_VAR
     
     VAR_GLOBAL        
         // Controls
@@ -133,7 +137,8 @@ CONFIGURATION MyConfiguration
             lidAtPlaceSensor := REF(lidAtPlaceSensor),
             baseClamp := REF(baseClamp),
             lidClamp := REF(lidClamp),
-            twoAxisPickPlace := REF(twoAxisPickPlace)
+            twoAxisPickPlace := REF(twoAxisPickPlace),
+            counter := REF(counter)
         );
     END_VAR
 
@@ -150,12 +155,12 @@ CONFIGURATION MyConfiguration
         {OpcUa = ReadWrite}
         hmiReset:BOOL;
 
-        {S7.extern=ReadWrite}
-        {OpcUa = ReadWrite}
+        {S7.extern=Read}
+        {OpcUa = Read}
         hmiCount:DINT;
 
-        {S7.extern=ReadWrite}
-        {OpcUa = ReadWrite}
+        {S7.extern=Read}
+        {OpcUa = Read}
         hmiTwoAxisStateName:STRING;
     END_VAR
 END_CONFIGURATION

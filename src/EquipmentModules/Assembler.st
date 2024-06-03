@@ -21,6 +21,7 @@ CLASS Assembler IMPLEMENTS ICyclic
         baseClamp : REF_TO Clamp;
         lidClamp : REF_TO Clamp;
         twoAxisPickPlace : REF_TO TwoAxisPickPlace;
+        counter: REF_TO DINT;
     END_VAR
 
     VAR PROTECTED
@@ -33,12 +34,10 @@ CLASS Assembler IMPLEMENTS ICyclic
 
         _baseObjectInPosition:BOOL;
         _lidObjectInPosition:BOOL;
-
-        _counter : DINT;
     END_VAR
 
     METHOD PUBLIC GetCount : DINT
-        GetCount := _counter;
+        GetCount := counter^;
     END_METHOD
 
     METHOD PUBLIC GetStatus : AssemblerStatus
@@ -60,7 +59,7 @@ CLASS Assembler IMPLEMENTS ICyclic
     METHOD PUBLIC Reset
         IF _status = AssemblerStatus#STOPPED OR _status = AssemblerStatus#EMERGENCY_STOPPING THEN
             _status := AssemblerStatus#STOPPED;
-            _counter := 0;
+            counter^ := 0;
 
             baseConveyor^.Stop();
             baseClamp^.Release();
@@ -150,7 +149,7 @@ CLASS Assembler IMPLEMENTS ICyclic
                         baseClamp^.Down();
                         partLeavingSensor^.Reset();
                         _status := AssemblerStatus#STARTED;
-                        _counter := _counter + 1;
+                        counter^ := counter^ + 1;
                     END_IF;
                 END_IF;
             AssemblerStatus#STOPPED:

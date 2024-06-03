@@ -9,7 +9,6 @@ variables:
     - "--debug" # Generate debug information for target "1500"
 devDependencies:
   "@ax/sdk": ^2405.0.0-rc.9
-  "@ax/plc-mode": ^1.0.0
   "@ax/opcua-server-config": 1.0.0
 scripts:
   dl:
@@ -17,9 +16,11 @@ scripts:
   load:
     - apax sld load -t 192.168.0.1 --accept-security-disclaimer -r
   opc:
-    - apax oscr interface install ./bin/plcsim/st-app.app  -t 192.168.0.1 -s -r --accept-security-disclaimer
-  # restart:
-  #   - plc-mode set stop -t 192.168.0.1 --yes --wait:5 && plc-mode set run -t 192.168.1.1 --yes
+    - apax oscr interface install ./bin/1500/st-app.app  -t 192.168.0.1 -s -r --accept-security-disclaimer
+  restart:
+    - plc-info set-mode STOP -t 192.168.0.1 -y && plc-info set-mode RUN -t 192.168.0.1 -y
 dependencies:
   "@ax/simatic-1500-tasks": 6.0.8
   "@ax/system-timer": ^7.0.17
+  "@ax/agent": ^0.6.0
+  "@ax/plc-info": ^2.4.0

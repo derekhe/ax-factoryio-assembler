@@ -129,7 +129,7 @@ FUNCTION RefreshOutput
     END_VAR
 
     qCounter:=assembler.GetCount();
-    hmiCount:=assembler.GetCount();    
+    hmiCount:=assembler.GetCount();
     qStartLight := StartLightSignal;
     qResetLight := ResetLightSignal;
     qStopLight := StopLightSignal;
