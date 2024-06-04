@@ -1,4 +1,4 @@
-USING System.Timer;
+USING Demo.Utils;
 USING Demo.ControlModule;
 
 NAMESPACE Demo.EquipmentModule
@@ -22,16 +22,13 @@ CLASS Assembler IMPLEMENTS ICyclic
         lidClamp : IClamp;
         twoAxisPickPlace : ITwoAxisPickPlace;
         counter: REF_TO DINT;
+        baseAtPlaceDelayTimer: ITimer;
+        lidAtPlaceDelayTimer: ITimer;
+        normalDelayTimer: ITimer;
     END_VAR
 
     VAR PROTECTED
         _status: AssemblerStatus;
-        _baseAtPlaceDelayTimer: OnDelay;
-        _lidAtPlaceDelayTimer: OnDelay;
-        _raiseDelayTimer: OnDelay;
-        _objectPassByDelayTimer: OnDelay;
-        _delayTimer: OnDelay;
-
         _baseObjectInPosition:BOOL;
         _lidObjectInPosition:BOOL;
     END_VAR
@@ -88,41 +85,43 @@ CLASS Assembler IMPLEMENTS ICyclic
 
                 _baseObjectInPosition :=FALSE;
                 _lidObjectInPosition:=FALSE;                
-
-                _baseAtPlaceDelayTimer(FALSE);
-                _lidAtPlaceDelayTimer(FALSE);
-
+                
                 baseAtPlaceSensor.Reset();
+                baseAtPlaceDelayTimer.Reset();
                 lidAtPlaceSensor.Reset();
+                lidAtPlaceDelayTimer.Reset();
 
                 _status := AssemblerStatus#WAITING_FOR_PARTS;
             AssemblerStatus#WAITING_FOR_PARTS:
-                _baseAtPlaceDelayTimer(baseAtPlaceSensor.HasObjectPassed(), LT#0.6s);
+                baseAtPlaceDelayTimer.SetDuration(LT#0.6s);
+                baseAtPlaceDelayTimer.Cycle(baseAtPlaceSensor.HasObjectPassed());
 
-                IF _baseAtPlaceDelayTimer.output THEN
-                    _baseAtPlaceDelayTimer(FALSE);
+                IF baseAtPlaceDelayTimer.Output() THEN
+                    baseAtPlaceDelayTimer.Reset();
                     baseConveyor.Stop();
                     baseClamp.DoClamp();
                     _baseObjectInPosition:=TRUE;
                 END_IF;
 
-                _lidAtPlaceDelayTimer(lidAtPlaceSensor.HasObjectPassed(), LT#0.6s);
+                lidAtPlaceDelayTimer.SetDuration(LT#0.6s);                
+                lidAtPlaceDelayTimer.Cycle(lidAtPlaceSensor.HasObjectPassed());
 
-                IF _lidAtPlaceDelayTimer.output THEN
-                    _lidAtPlaceDelayTimer(FALSE);
+                IF lidAtPlaceDelayTimer.Output() THEN
+                    lidAtPlaceDelayTimer.Reset();
                     lidConveyor.Stop();
                     lidClamp.DoClamp();
                     _lidObjectInPosition:=TRUE;
                 END_IF;
                 
                 IF _baseObjectInPosition && _lidObjectInPosition THEN                    
-                    _delayTimer(FALSE);
+                    normalDelayTimer.Reset();
                     _status := AssemblerStatus#CLAMPING_PARTS;
                 END_IF;
             AssemblerStatus#CLAMPING_PARTS:
-                _delayTimer(TRUE, LT#1s);
-                IF _delayTimer.output THEN
-                    _delayTimer(FALSE);
+                normalDelayTimer.SetDuration(LT#1s);
+                normalDelayTimer.Cycle(TRUE);
+                IF normalDelayTimer.Output() THEN
+                    normalDelayTimer.Reset();
                     lidClamp.Release();
                     baseClamp.Release();
                     twoAxisPickPlace.Start();
@@ -134,18 +133,20 @@ CLASS Assembler IMPLEMENTS ICyclic
                     _status := AssemblerStatus#MOVE_TO_FINISH;
                 END_IF;
             AssemblerStatus#MOVE_TO_FINISH:
-                _raiseDelayTimer(TRUE, LT#1s);
-                IF _raiseDelayTimer.output THEN
-                    _raiseDelayTimer(FALSE);
+                normalDelayTimer.SetDuration(LT#1s);
+                normalDelayTimer.Cycle(TRUE);
+                IF normalDelayTimer.Output() THEN
+                    normalDelayTimer.Reset();
                     baseConveyor.Start();
-                    _objectPassByDelayTimer(FALSE);
                     _status := AssemblerStatus#PARTS_LEAVING;                    
                 END_IF;
             AssemblerStatus#PARTS_LEAVING:
                 IF partLeavingSensor.HasObjectPassed() THEN
-                    _objectPassByDelayTimer(TRUE, LT#1s);
-                    IF _objectPassByDelayTimer.output THEN
-                        _objectPassByDelayTimer(FALSE);
+                    normalDelayTimer.SetDuration(LT#1s);
+                    normalDelayTimer.Cycle(TRUE);
+
+                    IF normalDelayTimer.Output() THEN
+                        normalDelayTimer.Reset();
                         baseClamp.Down();
                         partLeavingSensor.Reset();
                         _status := AssemblerStatus#STARTED;

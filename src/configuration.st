@@ -2,6 +2,7 @@ USING Siemens.Simatic.S71500.Tasks;
 USING Demo.ControlModule;
 USING Demo.ControlModule.States.TwoAxisPickPlace;
 USING Demo.EquipmentModule;
+USING Demo.Utils;
 
 CONFIGURATION MyConfiguration
     TASK Main (PRIORITY := 1);
@@ -129,7 +130,14 @@ CONFIGURATION MyConfiguration
         resetingState: ResetingState:=(Name:='Resetting', Device := REF(twoAxisPickPlace), NextState:=idleState);
         
         // Assembler
+        baseAtPlaceDelayTimer: Timer;
+        lidAtPlaceDelayTimer: Timer;
+        normalDelayTimer: Timer;
+
         assembler: Assembler := (
+            baseAtPlaceDelayTimer := baseAtPlaceDelayTimer,
+            lidAtPlaceDelayTimer := lidAtPlaceDelayTimer,
+            normalDelayTimer := normalDelayTimer,
             lidConveyor:=lidsConveyor,
             baseConveyor:=basesConveyor,
             baseAtPlaceSensor:=baseAtPlaceSensor,
