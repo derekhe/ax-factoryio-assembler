@@ -130,9 +130,24 @@ NAMESPACE EquipmentModuleTest
         END_METHOD
     END_CLASS
 
+    TYPE
+        MockTwoAxisPickPlaceStatus: INT (
+            IDLE:=0,
+            STARTED:=1,
+            RESET:=2,
+            STOP:=3,
+            EMERGENCY_STOP:=4);
+    END_TYPE
+
     CLASS MockTwoAxisPickPlace IMPLEMENTS ITwoAxisPickPlace
+        VAR PUBLIC
+            mockState: MockTwoAxisPickPlaceStatus;
+            isDone: BOOL;
+        END_VAR
+
         METHOD PUBLIC Init
-            ;
+            mockState := MockTwoAxisPickPlaceStatus#IDLE;
+            isDone := FALSE;
         END_METHOD
     
         METHOD PUBLIC SetState
@@ -147,23 +162,23 @@ NAMESPACE EquipmentModuleTest
         END_METHOD
     
         METHOD PUBLIC Start
-            ;
+            mockState := MockTwoAxisPickPlaceStatus#STARTED;
         END_METHOD
     
         METHOD PUBLIC Reset
-            ;
+            mockState := MockTwoAxisPickPlaceStatus#RESET;
         END_METHOD
     
         METHOD PUBLIC Stop
-            ;
+            mockState := MockTwoAxisPickPlaceStatus#STOP;
         END_METHOD
     
         METHOD PUBLIC EmergencyStop
-            ;
+            mockState := MockTwoAxisPickPlaceStatus#EMERGENCY_STOP;
         END_METHOD
     
         METHOD PUBLIC GetIsDone : BOOL
-            ;
+            GetIsDone := isDone;
         END_METHOD
     
         METHOD PUBLIC Cycle
@@ -248,6 +263,55 @@ NAMESPACE EquipmentModuleTest
             Assert.Equal(actual := baseConveyor.started, expected := TRUE);
             Assert.Equal(actual := lidConveyor.started, expected := TRUE);
             Assert.Equal(actual := assembler.GetStatus(), expected := AssemblerStatus#WAITING_FOR_PARTS);
+        END_METHOD
+
+        {Test}
+        METHOD PUBLIC Should_Stop_BaseConveyor_When_Base_Arrived
+            baseConveyor.started := TRUE;
+            lidConveyor.started := TRUE;
+            assembler.SetStatus(AssemblerStatus#WAITING_FOR_PARTS);
+            baseAtPlaceDelayTimer.timeUp :=TRUE;
+
+            assembler.Cycle();
+
+            Assert.Equal(actual := baseConveyor.started, expected := FALSE);
+            Assert.Equal(actual := lidConveyor.started, expected := TRUE);
+            Assert.Equal(actual := baseClamp.clamped, expected := TRUE);
+            Assert.Equal(actual := assembler.GetStatus(), expected := AssemblerStatus#WAITING_FOR_PARTS);
+        END_METHOD
+
+        
+        {Test}
+        METHOD PUBLIC Should_Stop_Both_Conveyor_And_Clamp_Both_Parts_When_Lid_And_Base_Arrived
+            baseConveyor.started := TRUE;
+            lidConveyor.started := TRUE;
+            assembler.SetStatus(AssemblerStatus#WAITING_FOR_PARTS);
+            baseAtPlaceDelayTimer.timeUp :=TRUE;
+            lidAtPlaceDelayTimer.timeUp :=TRUE;
+
+            assembler.Cycle();
+
+            Assert.Equal(actual := baseConveyor.started, expected := FALSE);
+            Assert.Equal(actual := lidConveyor.started, expected := FALSE);
+            Assert.Equal(actual := baseClamp.clamped, expected := TRUE);
+            Assert.Equal(actual := lidClamp.clamped, expected := TRUE);
+            Assert.Equal(actual := assembler.GetStatus(), expected := AssemblerStatus#CLAMPING_PARTS);
+        END_METHOD
+        
+        {Test}
+        METHOD PUBLIC Should_Release_Clamps_And_Start_AxixPickPlace_When_ClampingParts
+            baseClamp.clamped := TRUE;
+            lidClamp.clamped := TRUE;
+            assembler.SetStatus(AssemblerStatus#CLAMPING_PARTS);
+            normalDelayTimer.timeUp := TRUE;
+            
+            assembler.Cycle();
+
+            Assert.Equal(actual := baseClamp.clamped, expected := FALSE);
+            Assert.Equal(actual := lidClamp.clamped, expected := FALSE);
+            Assert.Equal(actual := twoAxisPickPlace.GetIsDone(), expected := FALSE);
+            Assert.Equal(actual := twoAxisPickPlace.mockState, expected := MockTwoAxisPickPlaceStatus#STARTED);
+            Assert.Equal(actual := assembler.GetStatus(), expected := AssemblerStatus#PICK_AND_PLACE);
         END_METHOD
     END_CLASS    
 END_NAMESPACE
