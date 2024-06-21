@@ -5,187 +5,6 @@ USING AxUnit;
 USING Demo.EquipmentModule;
 
 NAMESPACE EquipmentModuleTest
-    CLASS TestAssembler EXTENDS Assembler
-        METHOD PUBLIC Setup
-            _status:= AssemblerStatus#IDLE;
-        END_METHOD
-
-        METHOD PUBLIC SetStatus
-            VAR_INPUT
-                status: AssemblerStatus;
-            END_VAR
-
-            THIS._status := status;
-        END_METHOD        
-    END_CLASS
-
-    CLASS MockConveyor IMPLEMENTS IConveyor        
-        VAR PUBLIC
-            started:BOOL;
-        END_VAR
-
-        METHOD PUBLIC Setup
-            started := FALSE;
-        END_METHOD
-
-        METHOD PUBLIC Start
-            started := TRUE;
-        END_METHOD
-    
-        METHOD PUBLIC Stop
-            started := FALSE;
-        END_METHOD
-    
-        METHOD PUBLIC Cycle
-            ;
-        END_METHOD
-    END_CLASS
-
-    CLASS MockObjectSensor IMPLEMENTS IObjectSensor
-        VAR PUBLIC
-            objectDetected:BOOL;
-        END_VAR
-
-        METHOD PUBLIC Setup
-            objectDetected := FALSE;            
-        END_METHOD
-   
-        METHOD PUBLIC HasObjectPassed : BOOL
-            objectDetected:=TRUE;
-        END_METHOD
-    
-        METHOD PUBLIC Reset
-            objectDetected:=FALSE;
-        END_METHOD
-    
-        METHOD PUBLIC Cycle
-            objectDetected:=TRUE;
-        END_METHOD
-    END_CLASS
-
-    CLASS MockTimer IMPLEMENTS ITimer
-        VAR PUBLIC
-            timeUp: BOOL;
-        END_VAR
-
-        METHOD PUBLIC SetDuration
-            VAR_INPUT
-                duration : LTIME;
-            END_VAR
-
-            ;
-        END_METHOD
-    
-        METHOD PUBLIC Reset
-            timeUp:=FALSE;
-        END_METHOD
-    
-        METHOD PUBLIC Cycle
-            VAR_INPUT
-                signal : BOOL;
-            END_VAR
-
-            ;
-        END_METHOD
-    
-        METHOD PUBLIC Output : BOOL
-            Output := timeUp;
-        END_METHOD
-    END_CLASS
-
-    CLASS MockClamp IMPLEMENTS IClamp
-        VAR PUBLIC
-            clamped: BOOL;
-            raised: BOOL;
-        END_VAR
-
-        METHOD PUBLIC Setup
-            clamped := FALSE;
-            raised := FALSE;
-        END_METHOD
-    
-        METHOD PUBLIC DoClamp
-            clamped := TRUE;
-        END_METHOD
-    
-        METHOD PUBLIC Release
-            clamped := FALSE;
-        END_METHOD
-    
-        METHOD PUBLIC Raise
-            raised := TRUE;
-        END_METHOD
-    
-        METHOD PUBLIC Down
-            raised := FALSE;
-        END_METHOD
-    
-        METHOD PUBLIC Reset
-            clamped := FALSE;
-            raised := FALSE;
-        END_METHOD
-    
-        METHOD PUBLIC Cycle
-            ;
-        END_METHOD
-    END_CLASS
-
-    TYPE
-        MockTwoAxisPickPlaceStatus: INT (
-            IDLE:=0,
-            STARTED:=1,
-            RESET:=2,
-            STOP:=3,
-            EMERGENCY_STOP:=4);
-    END_TYPE
-
-    CLASS MockTwoAxisPickPlace IMPLEMENTS ITwoAxisPickPlace
-        VAR PUBLIC
-            mockState: MockTwoAxisPickPlaceStatus;
-            isDone: BOOL;
-        END_VAR
-
-        METHOD PUBLIC Init
-            mockState := MockTwoAxisPickPlaceStatus#IDLE;
-            isDone := FALSE;
-        END_METHOD
-    
-        METHOD PUBLIC SetState
-            VAR_INPUT
-                state : IPickPlaceState;
-            END_VAR
-            ;
-        END_METHOD
-    
-        METHOD PUBLIC GetStateName : STRING
-            ;
-        END_METHOD
-    
-        METHOD PUBLIC Start
-            mockState := MockTwoAxisPickPlaceStatus#STARTED;
-        END_METHOD
-    
-        METHOD PUBLIC Reset
-            mockState := MockTwoAxisPickPlaceStatus#RESET;
-        END_METHOD
-    
-        METHOD PUBLIC Stop
-            mockState := MockTwoAxisPickPlaceStatus#STOP;
-        END_METHOD
-    
-        METHOD PUBLIC EmergencyStop
-            mockState := MockTwoAxisPickPlaceStatus#EMERGENCY_STOP;
-        END_METHOD
-    
-        METHOD PUBLIC GetIsDone : BOOL
-            GetIsDone := isDone;
-        END_METHOD
-    
-        METHOD PUBLIC Cycle
-            ;
-        END_METHOD
-    END_CLASS
-
     {TestFixture}
     CLASS AssemblerTest
         VAR PRIVATE
@@ -213,7 +32,7 @@ NAMESPACE EquipmentModuleTest
             partLeavingSensor.Setup();
             baseClamp.Setup();
             lidClamp.Setup();
-            twoAxisPickPlace.Init();
+            twoAxisPickPlace.Setup();
             baseAtPlaceDelayTimer.SetDuration(LTIME#1s);
             lidAtPlaceDelayTimer.SetDuration(LTIME#1s);
             normalDelayTimer.SetDuration(LTIME#1s);
@@ -313,5 +132,5 @@ NAMESPACE EquipmentModuleTest
             Assert.Equal(actual := twoAxisPickPlace.mockState, expected := MockTwoAxisPickPlaceStatus#STARTED);
             Assert.Equal(actual := assembler.GetStatus(), expected := AssemblerStatus#PICK_AND_PLACE);
         END_METHOD
-    END_CLASS    
+    END_CLASS
 END_NAMESPACE
