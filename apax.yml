@@ -8,7 +8,7 @@ variables:
   APAX_BUILD_ARGS:
     - "--debug" # Generate debug information for target "1500"
 devDependencies:
-  "@ax/sdk": 2411.0.0-rc.4
+  "@ax/sdk": 2411.0.0
   "@ax/opcua-server-config": 2.0.0
 scripts:
   dl:
@@ -25,4 +25,4 @@ dependencies:
   "@ax/agent": 0.6.0
   "@ax/plc-info": 3.0.0
 catalogs:
-  "@ax/simatic-ax": ^2411.0.0-rc.4
+  "@ax/simatic-ax": ^2411.0.0
