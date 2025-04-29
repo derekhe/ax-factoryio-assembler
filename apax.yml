@@ -8,7 +8,7 @@ variables:
   APAX_BUILD_ARGS:
     - "--debug" # Generate debug information for target "1500"
 devDependencies:
-  "@ax/sdk": 2411.0.0
+  "@ax/sdk": 2504.0.0-rc.3
   "@ax/opcua-server-config": 2.0.0
 scripts:
   dl:
@@ -20,9 +20,9 @@ scripts:
   restart:
     - plc-info set-mode STOP -t 192.168.0.1 -y && plc-info set-mode RUN -t 192.168.0.1 -y
 dependencies:
-  "@ax/simatic-1500-tasks": 7.0.6
-  "@ax/system-timer": 8.0.7
+  "@ax/simatic-1500-tasks": 10.0.1
+  "@ax/system-timer": 10.0.24
   "@ax/agent": 0.6.0
-  "@ax/plc-info": 3.0.0
+  "@ax/plc-info": 3.1.0
 catalogs:
-  "@ax/simatic-ax": ^2411.0.0
+  "@ax/simatic-ax": 2504.0.0-rc.3
